@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour {
 
+    // Player Selection
+    public int player;
+
     //*** Spin Input
     public GameObject speedDisplayBar;
 
-    float horizontalRaw;
-    float verticalRaw;
+    public float horizontalRaw;
+    public float verticalRaw;
     float angleRaw;
 
     bool up, right, down, left;
@@ -17,14 +20,19 @@ public class InputManager : MonoBehaviour {
     public float spinSpeed;
     //***
 
+    //*** Buttons
+    public bool a, b, x, y;
+    //***
+
 	// Use this for initialization
 	void Start () {
-		
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
         SpinInput();
+        Buttons();
     }
 
     // Calculates Everything For Spin Input
@@ -32,12 +40,12 @@ public class InputManager : MonoBehaviour {
     {
         // Every Frame
         spinTime += Time.deltaTime;
-        
-        // Actual Input
-        horizontalRaw = Input.GetAxisRaw("Horizontal");
-        verticalRaw = Input.GetAxisRaw("Vertical");
-        angleRaw = Mathf.Atan2(verticalRaw, horizontalRaw) * 180 / Mathf.PI;
 
+        // Actual Input
+        horizontalRaw = Input.GetAxis("Horizontal " + player);
+        verticalRaw = Input.GetAxis("Vertical " + player);
+        angleRaw = Mathf.Atan2(verticalRaw, horizontalRaw) * 180 / Mathf.PI;
+        
         // Only Calculate if Stick is actually being moved
         if (!(horizontalRaw == 0 && verticalRaw == 0))
         {
@@ -62,7 +70,7 @@ public class InputManager : MonoBehaviour {
         // Full Cycle Completed
         if (up && right && down && left || spinTime > 1)
         {
-            spinSpeed = 1 / spinTime -1;
+            spinSpeed = 1 / spinTime ;
             up = right = down = left = false;
             spinTime = 0;
         }
@@ -75,6 +83,13 @@ public class InputManager : MonoBehaviour {
         speedDisplayBar.transform.position = new Vector3(0, spinSpeed / 2, 0);
     }
 
+    public void Buttons()
+    {
+        a = Input.GetButton("A " + player);
+        b = Input.GetButton("B " + player);
+        x = Input.GetButton("X " + player);
+        y = Input.GetButton("Y " + player);
+    }
 
     //*** Getter & Setter
     public float getSpinSpeed() { return spinSpeed; }
