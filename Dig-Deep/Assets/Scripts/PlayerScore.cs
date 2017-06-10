@@ -98,15 +98,23 @@ public class PlayerScore : MonoBehaviour {
             //int min = 0;
             //int max = length/2-1;//Weil es Datenpaare sind
             //wordlist=binSea(wordlist, min, max, length, name, score);
+            bool changed = false;
             for (int i = 0; i < length; i += 2)
             {
                 int compare;
                 Int32.TryParse(wordlist[i], out compare);
+                Debug.Log("Vergleich: " + score + " " + compare);
                 if (score > compare)
                 {
                     wordlist[i] = score + " " + name + " " + wordlist[i];
+                    changed = true;
+                    Debug.Log(wordlist[i]);
                     break;
                 }
+            }
+            if (!changed)
+            {
+                wordlist[length - 1] += " " + score + " " + name;
             }
 
             scorelist = "";
