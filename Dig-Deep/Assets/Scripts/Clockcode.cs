@@ -7,6 +7,6 @@ public class Clockcode : MonoBehaviour {
 
 	void Update () {
 		//Stoppuhr
-        GetComponent<Image>().fillAmount = GameManager.current;
+        GetComponent<Image>().fillAmount = GameManager.current.clockPercentage;
 	}
 }
