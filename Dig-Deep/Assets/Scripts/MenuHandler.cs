@@ -13,10 +13,21 @@ public class MenuHandler : MonoBehaviour {
     private int player1EasterEgg = 0;
     private int player2EasterEgg = 0;
 
+    public GameObject drill;
+
+    public bool trans;
+
+
     // Update is called once per frame
     void Update () {
-        
-        if(Input.GetKeyDown("joystick 1 button 0") && !p1Done && !done )
+
+        if (trans)
+        {
+            StartCoroutine(nextLevel());
+        }
+
+
+        if (Input.GetKeyDown("joystick 1 button 0") && !p1Done && !done )
         {
             p1pressedA.Invoke();
             p1Done = !p1Done;
@@ -44,8 +55,7 @@ public class MenuHandler : MonoBehaviour {
         if(p1Done && p2Done)
         {
             done = !done;
-            transition.Invoke();
-            StartCoroutine(nextLevel(5));
+            StartCoroutine(nextLevel());
         }
 
         //Easter Egg handlling
@@ -130,10 +140,15 @@ public class MenuHandler : MonoBehaviour {
 
     }
 
-    IEnumerator nextLevel(float time)
+    IEnumerator nextLevel()
     {
 
-        yield return new WaitForSeconds(time);        
+        drill.GetComponent<MoveSprite>().moveDrill();
+        yield return new WaitForSeconds(2);
+        transition.Invoke();
+
+        yield return new WaitForSeconds(5);
         SceneManager.LoadScene(1);
     }
+
 }
