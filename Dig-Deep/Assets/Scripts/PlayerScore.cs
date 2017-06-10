@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PlayerScore : MonoBehaviour {
     private int p1score = 0;        //Extrascore des Spielers
@@ -33,7 +34,12 @@ public class PlayerScore : MonoBehaviour {
         }
         if (Input.GetButtonDown("Fire2"))
         {
-            writeToBoard("You are a fooooooooooool. Just a joke :P");
+            writeToBoard("YouAreAFooooooooooool.JustAJoke:P",1000);
+            writeToBoard("Test1", 100);
+            writeToBoard("Test2", 90);
+            writeToBoard("Test3", 80);
+            writeToBoard("Test5", 50);
+            writeToBoard("Test4", 60);
         }
 	}
 
@@ -69,7 +75,7 @@ public class PlayerScore : MonoBehaviour {
         
     }
 
-    public void writeToBoard(string output)
+    public void writeToBoard(string name, int score)
     {
         string scorelist="";
         if (System.IO.File.Exists(Application.dataPath + "//resources//scores.txt"))
@@ -78,9 +84,64 @@ public class PlayerScore : MonoBehaviour {
         }
         //Füge neues Score ein
         string[] wordlist = scorelist.Split();
-        int mid = wordlist.Length / 2;
-        scorelist += output;
+        int length=wordlist.Length;
+        if (length % 2 != 0||length<2)
+        {
+            scorelist = name + " " + score;
+            //0 -> 0    ->  Write direct            //Done
+            //ungerade  ->  Fehler! File ersetzen   //Done
+        }
+        else
+        {
+            //int middle = length / 4;//Teile durch 2 wegen Datenpaaren und nochmal um die Mitte zu bekommen 
+            int min = 0;
+            int max = length/2-1;//Weil es Datenpaare sind
+            wordlist=binSea(wordlist, min, max, length, name, score);
+            scorelist="";
+            Debug.Log(wordlist);
+            foreach(string x in wordlist){
+                scorelist += x + " ";
+            }
+            //2 -> 0    ->  convert 1 to int compare und setze dann davor/danach                                1           11/12
+            //4 -> 1    ->  convert 3 to int compare und fahre dann bei 1 fort oder schreibe dahinter           1 3         1/32    11/12  
+            //6 -> 1    ->  convert 3 to int compare und fahre dann bei 1 fort oder teste bei 5                 1 3 5       1/5     11/12 // 51/52
+            //8 -> 2    ->  convert 5 to int compare und fahre dann bei 3 fort oder schreibe dahinter           1 3 5 7     3/7     1/32 // 71/72   11/12
+            //10-> 2    ->  convert 5 to int compare und                                                        1 3 5 7 9   3/7     1/32 // 71/9    11/12 // 91/92
+            //12-> 3    ->  convert 7 to int compare und
+        }
+        
         System.IO.File.WriteAllText(Application.dataPath + "//resources//scores.txt", scorelist);//Schreibe in txt
+    }
+
+    private string[] binSea(string[] input, int min, int max, int length, string name, int score)
+    {
+        while (min <= max)
+        {
+            int compare;
+            int mid = (min + max) / 2;
+            Debug.Log(length + " " + mid * 2);
+            Int32.TryParse(input[mid * 2], out compare);
+            if (score == compare)
+            {
+                //return ++mid;
+                input[mid * 2] += " " + name + " " + score;
+                Debug.Log(input[mid * 2]);
+                return input;
+            }
+            else if (score < compare)
+            {
+                max = mid - 1;
+            }
+            else
+            {
+                min = mid + 1;
+            }
+
+        }
+        input[(min + max) / 2] += " " + name + " " + score;
+        Debug.Log(input[(min + max) / 2]);
+        Debug.Log("Did exit!");
+        return input;
     }
 
     IEnumerator Termination()
