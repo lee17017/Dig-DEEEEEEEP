@@ -77,8 +77,20 @@ public class Tiling : MonoBehaviour {
             else
                 pos = player.transform.position + Vector3.left * 32;
 
-            pos.y = mod(pos.y * 100, 3200) / 100;
-            sprite.texture.SetPixels32((int)(20 * pos.x) - pWidth / 2, (int)(20 * pos.y) - pHeight / 2, pWidth, pHeight, empty);
+            pos.y = mod(pos.y, 32);
+
+            int posX= (int)(20 * pos.x) - pWidth / 2, posY= (int)(20 * pos.y) - pHeight / 2;
+            if ((int)(20 * pos.x) - pWidth / 2 < 0)
+                posX = 0;
+            else if ((int)(20 * pos.x) + pWidth / 2 > tex.width*width)
+                posX = tex.width*width-pWidth;
+
+            if ((int)(20 * pos.y) - pHeight / 2 < 0)
+                posY = 0;
+            else if ((int)(20 * pos.y) + pHeight / 2 > tex.height * height)
+                posY = tex.height * height - pHeight;
+
+            sprite.texture.SetPixels32(posX, posY, pWidth, pHeight, empty);
             sprite.texture.Apply();
         }
     }
