@@ -45,9 +45,11 @@ public class PlayerScore : MonoBehaviour {
         //    writeToBoard("Test5", 50);
         //    writeToBoard("Test4", 60);
         //}
+        
 
-            p1score = p1Drill.transform.position.y + p1Drill.GetComponent<Player>().correctClicked;
-            p2score = p2Drill.transform.position.y + p2Drill.GetComponent<Player>().correctClicked;
+
+            p1score = p1Drill.transform.position.y - 162;
+            p2score = p2Drill.transform.position.y - 162;
 
         GameManager.current.playerScore1 = (int)p1score;
         GameManager.current.playerScore2 = (int)p2score;
