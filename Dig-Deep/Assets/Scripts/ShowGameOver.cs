@@ -17,7 +17,6 @@ public class ShowGameOver : MonoBehaviour {
     void Update () {
         if (!GameManager.current.run && !display)
         {
-            Debug.Log("FICK DICH ROBIN");
             gOver.gameObject.SetActive(true);
             display = true;
         }
