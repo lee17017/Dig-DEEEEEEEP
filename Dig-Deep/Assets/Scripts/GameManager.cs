@@ -35,6 +35,8 @@ public class GameManager : MonoBehaviour {
     public float totalDuration;
     public bool run = true;
 
+    public float clockPercentage;
+
     //Anzahl erlaubter Fehler bevor man gestunned wird
     public int FehlerAnzahl;
     
@@ -55,6 +57,11 @@ public class GameManager : MonoBehaviour {
     // Use this for initialization
     void Start () {
 	}
+
+    private void Update()
+    {
+        clockPercentage = Mathf.Abs(gameDuration / totalDuration);
+    }
 
     IEnumerator gameTime()
     {
