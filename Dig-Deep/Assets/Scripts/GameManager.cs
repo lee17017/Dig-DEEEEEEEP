@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
@@ -57,12 +58,27 @@ public class GameManager : MonoBehaviour {
 
     IEnumerator gameTime()
     {
-        while(gameDuration > 0)
-        {
+        while(gameDuration > 0)        {
+            
+            if(SceneManager.GetActiveScene().buildIndex == 0)
+            {
+                run = true;
+                gameDuration = totalDuration;
+            }
+
             gameDuration -= Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
         run = false;
+
+        yield return new WaitForSeconds(5);
+
+        /*
+         run your you lose you win part here @Liou
+         
+         */
+
+        SceneManager.LoadScene(2);
 
         
     }

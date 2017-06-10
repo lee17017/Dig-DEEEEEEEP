@@ -5,10 +5,12 @@ using UnityEngine.UI;
 using System;
 
 public class PlayerScore : MonoBehaviour {
-    private int p1score = 0;        //Extrascore des Spielers
-    private int p2score = 0;
-    private int p1depth = 0;        //Depthscore des Spielers
-    private int p2depth = 0; 
+    public GameObject p1Drill, p2Drill;
+
+    private float p1score = 0;        //Extrascore des Spielers
+    private float p2score = 0;
+    private float p1depth = 0;        //Depthscore des Spielers
+    private float p2depth = 0; 
     private int p1multiplyer = 1;   //Material-Multiplyer
     private int p2multiplyer = 1;
     public float p1speed = 0;       //relative Geschwindigkeit des Spielers
@@ -44,6 +46,22 @@ public class PlayerScore : MonoBehaviour {
         //    writeToBoard("Test4", 60);
         //}
         updateTime();
+
+            p1score = p1Drill.transform.position.y + p1Drill.GetComponent<Player>().correctClicked;
+            p2score = p2Drill.transform.position.y + p2Drill.GetComponent<Player>().correctClicked;
+
+        GameManager.current.playerScore1 = (int)p1score;
+        GameManager.current.playerScore2 = (int)p2score;
+
+        if (!GameManager.current.run)
+        {
+
+            
+
+            int[] scores = { (int)p1score, (int)p2score };
+
+            GameManager.current.winnerScore = Mathf.Max(scores);
+        }
 	}
 
     public void setMultiplyer(bool player, int materialID)
@@ -65,7 +83,7 @@ public class PlayerScore : MonoBehaviour {
 
     }
     //Sollte bei Spielende aufgerufen werden
-    public int getFinalScore(bool player)
+   /* public int getFinalScore(bool player)
     {
         if (player)
         {
@@ -76,7 +94,7 @@ public class PlayerScore : MonoBehaviour {
             return p2score + p2depth;
         }
         
-    }
+    }*/
 
     public void writeToBoard(string name, int score)
     {
@@ -167,7 +185,7 @@ public class PlayerScore : MonoBehaviour {
     //    return input;
     //}
 
-    IEnumerator Termination()
+    /*IEnumerator Termination()
     {
         yield return new WaitForSeconds(30);
         int score1 = getFinalScore(true);
@@ -184,7 +202,7 @@ public class PlayerScore : MonoBehaviour {
         {
             Debug.Log("There is no winner... (Sudden Death ist available for only 2$. Just search for it in our InAppPurchase-section");
         }
-    }
+    }*/
 
     //Stoppuhr:
     public GameObject time;
