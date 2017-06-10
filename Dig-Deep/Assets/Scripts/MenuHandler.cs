@@ -10,6 +10,7 @@ public class MenuHandler : MonoBehaviour {
     public UnityEvent p1pressedA, p2pressedA, p1pressedB, p2pressedB, transition;
     bool p1Done=false, p2Done=false, done = false;
 
+    [SerializeField]
     private int player1EasterEgg = 0;
     private int player2EasterEgg = 0;
 
@@ -20,7 +21,7 @@ public class MenuHandler : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-
+        
         if (trans)
         {
             StartCoroutine(nextLevel());
@@ -90,7 +91,7 @@ public class MenuHandler : MonoBehaviour {
                     player1EasterEgg++;
                 break;
             case 7:
-                if (Input.GetKeyDown(KeyCode.Joystick1Button2))
+                if (Input.GetKeyDown(KeyCode.Joystick1Button0))
                     player1EasterEgg++;
                 break;
             case 8:
@@ -129,7 +130,7 @@ public class MenuHandler : MonoBehaviour {
                     player2EasterEgg++;
                 break;
             case 7:
-                if (Input.GetKeyDown(KeyCode.Joystick2Button2))
+                if (Input.GetKeyDown(KeyCode.Joystick2Button0))
                     player2EasterEgg++;
                 break;
             case 8:
