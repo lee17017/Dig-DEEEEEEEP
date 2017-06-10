@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour {
 
     public float secondsSmoothed;
 
+    public float powerSpins;
+
    
     public Canvas canvas;
     
