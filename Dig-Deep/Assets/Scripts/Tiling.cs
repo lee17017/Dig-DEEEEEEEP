@@ -15,8 +15,36 @@ public class Tiling : MonoBehaviour {
     bool once = true;
     public int numb;
     Sprite sprite;
+    
+    public void removeShit()
+    {
+        Debug.Log(numb);
+        Debug.Log("A: " + height / 3 * 2);
+        Debug.Log(height);
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < 2; y++)
+            {
+                sprite.texture.SetPixels32(x * tex.width, y * tex.height, tex.width, tex.height, tex.GetPixels32());
+            }
+        }
+        sprite.texture.Apply(true);
+    }
     public void init()
     {
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                sprite.texture.SetPixels32(x * tex.width, y * tex.height, tex.width, tex.height, tex.GetPixels32());
+            }
+        }
+        sprite.texture.Apply(true);
+    }
+    void Awake()
+    {
+
+
         if (tex == null)
             Debug.LogError("could not find texture");
 
@@ -29,25 +57,13 @@ public class Tiling : MonoBehaviour {
             empty[i] = new Color32(0, 0, 0, 0);
         }
 
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++)
-            {
-                sprite.texture.SetPixels32(x * tex.width, y * tex.height, tex.width, tex.height, tex.GetPixels32());
-            }
-        }
-        // digged = tex2.GetPixels32();
-        //sprite.texture.SetPixels32(tex.width, tex.height, tex.width, tex.height, digged);
-        sprite.texture.Apply(true);
-    }
-    void Awake()
-    {
-
-
         init();
         
     }
-
+    float mod(float a, int b)
+    {
+        return (a % b + b) % b;
+    }
     void Update()
     {
 
@@ -60,8 +76,9 @@ public class Tiling : MonoBehaviour {
                 pos = player.transform.position;
             else
                 pos = player.transform.position + Vector3.left * 32;
-        
-            sprite.texture.SetPixels32((int)(10 * pos.x) - pWidth / 2, (int)(10 * pos.y) - pHeight / 2, pWidth, pHeight, empty);
+
+            pos.y = mod(pos.y * 100, 3200) / 100;
+            sprite.texture.SetPixels32((int)(20 * pos.x) - pWidth / 2, (int)(20 * pos.y) - pHeight / 2, pWidth, pHeight, empty);
             sprite.texture.Apply();
         }
     }
