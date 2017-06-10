@@ -85,23 +85,40 @@ public class PlayerScore : MonoBehaviour {
         //Füge neues Score ein
         string[] wordlist = scorelist.Split();
         int length=wordlist.Length;
+        Debug.Log(length);
         if (length % 2 != 0||length<2)
         {
-            scorelist = name + " " + score;
+            scorelist = score + " " + name;
             //0 -> 0    ->  Write direct            //Done
             //ungerade  ->  Fehler! File ersetzen   //Done
         }
         else
         {
             //int middle = length / 4;//Teile durch 2 wegen Datenpaaren und nochmal um die Mitte zu bekommen 
-            int min = 0;
-            int max = length/2-1;//Weil es Datenpaare sind
-            wordlist=binSea(wordlist, min, max, length, name, score);
-            scorelist="";
-            Debug.Log(wordlist);
-            foreach(string x in wordlist){
-                scorelist += x + " ";
+            //int min = 0;
+            //int max = length/2-1;//Weil es Datenpaare sind
+            //wordlist=binSea(wordlist, min, max, length, name, score);
+            for (int i = 0; i < length; i += 2)
+            {
+                int compare;
+                Int32.TryParse(wordlist[i], out compare);
+                if (score > compare)
+                {
+                    wordlist[i] = score + " " + name + " " + wordlist[i];
+                    break;
+                }
             }
+
+            scorelist = "";
+            for (int i = 0; i < length; i++)
+            {
+                scorelist += wordlist[i];
+                if (i < length - 1)
+                {
+                    scorelist += " ";
+                }
+            }
+            Debug.Log("Liste: " + scorelist);
             //2 -> 0    ->  convert 1 to int compare und setze dann davor/danach                                1           11/12
             //4 -> 1    ->  convert 3 to int compare und fahre dann bei 1 fort oder schreibe dahinter           1 3         1/32    11/12  
             //6 -> 1    ->  convert 3 to int compare und fahre dann bei 1 fort oder teste bei 5                 1 3 5       1/5     11/12 // 51/52
@@ -113,19 +130,19 @@ public class PlayerScore : MonoBehaviour {
         System.IO.File.WriteAllText(Application.dataPath + "//resources//scores.txt", scorelist);//Schreibe in txt
     }
 
+    //Methode ist fehlerhaft
     private string[] binSea(string[] input, int min, int max, int length, string name, int score)
     {
+        Debug.LogError("binSea() wurde genutzt, obwohl diese Methode fehlerhaft ist");
         while (min <= max)
         {
             int compare;
             int mid = (min + max) / 2;
-            Debug.Log(length + " " + mid * 2);
             Int32.TryParse(input[mid * 2], out compare);
             if (score == compare)
             {
                 //return ++mid;
-                input[mid * 2] += " " + name + " " + score;
-                Debug.Log(input[mid * 2]);
+                input[mid * 2+1] += " " + score + " " + name;
                 return input;
             }
             else if (score < compare)
@@ -138,9 +155,7 @@ public class PlayerScore : MonoBehaviour {
             }
 
         }
-        input[(min + max) / 2] += " " + name + " " + score;
-        Debug.Log(input[(min + max) / 2]);
-        Debug.Log("Did exit!");
+        input[max+1] += " " + score + " " + name;
         return input;
     }
 

@@ -19,6 +19,7 @@ public class Player : MonoBehaviour {
     public float spinsPerSecond;
     [SerializeField]
     public Queue<int> spinSpeedSaves;
+    public float secondsSmoothed;
 
 
     [SerializeField]
@@ -36,6 +37,7 @@ public class Player : MonoBehaviour {
     float travelspeedBase;
     [SerializeField]
     float distance;
+    public float speedMultiplier;
 
     private float timeSinceLastSpawn = 0;
 
@@ -54,7 +56,7 @@ public class Player : MonoBehaviour {
 
         spinSpeedSaves = new Queue<int>();
 
-        for(int i=0; i<240; i++)
+        for(int i=0; i<secondsSmoothed*60; i++)
         {
             spinSpeedSaves.Enqueue(0);
         }
@@ -76,7 +78,7 @@ public class Player : MonoBehaviour {
     public void ButtonMovement()
     {
         //Calculates Movement speed and spawn rate
-        float Speed = Mathf.Max(travelspeedBase * spinsPerSecond * 0.15f, travelspeedBase) * Time.deltaTime;
+        float Speed = Mathf.Max(travelspeedBase * spinsPerSecond * speedMultiplier, travelspeedBase) * Time.deltaTime;
         float SpawnTime = distance / Speed * Time.deltaTime;
 
         //Button Spawning
@@ -86,7 +88,7 @@ public class Player : MonoBehaviour {
         {
             timeSinceLastSpawn = 0;
 
-            Image newButton = Image.Instantiate(defaultImage);
+            Image newButton = Image.Instantiate(defaultImage, transform);
             newButton.transform.SetParent(canvas.transform, false);
             newButton.transform.SetAsFirstSibling();
             newButton.sprite = ButtonSprites[Random.Range(0, ButtonSprites.Length)];
@@ -146,43 +148,40 @@ public class Player : MonoBehaviour {
             currentInput = 3;
         }
 
-        foreach (Image button in currentActiveButtons)
+        currentButton = -1;
+
+        if (currentActiveButtons.Count > 0)
         {
-
-            if (button.transform.position.x > 75 && button.transform.position.x < 125)
+            //Button befindet sich über dem Strich
+            if (currentActiveButtons[0].sprite.Equals(ButtonSprites[0]))
             {
-                //Button befindet sich über dem Strich
-                if (button.sprite.Equals(ButtonSprites[0]))
-                {
-                    currentButton = 0;
-                }
-                else if (button.sprite.Equals(ButtonSprites[1]))
-                {
-                    currentButton = 1;
-                }
-                else if (button.sprite.Equals(ButtonSprites[2]))
-                {
-                    currentButton = 2;
-                }
-                else if (button.sprite.Equals(ButtonSprites[3]))
-                {
-                    currentButton = 3;
-                }
+                currentButton = 0;
+            }
+            else if (currentActiveButtons[0].sprite.Equals(ButtonSprites[1]))
+            {
+                currentButton = 1;
+            }
+            else if (currentActiveButtons[0].sprite.Equals(ButtonSprites[2]))
+            {
+                currentButton = 2;
+            }
+            else if (currentActiveButtons[0].sprite.Equals(ButtonSprites[3]))
+            {
+                currentButton = 3;
+            }
 
-                if (currentInput == currentButton)
-                {
-                    //Handle correct pressed button logic
-                    correctClicked++;
+            if (currentInput == currentButton)
+            {
+                //Handle correct pressed button logic
+                correctClicked++;
 
-                    //move button to already clicked so it doesn't get clicked again
-                    currentActiveButtons.Remove(button);
-                    //clickedButtons.Add(button);
-                    DestroyImmediate(button.gameObject);
-                }
-
-                break;
+                //move button to already clicked so it doesn't get clicked again
+                DestroyImmediate(currentActiveButtons[0].gameObject);
+                currentActiveButtons.RemoveAt(0);
+                //clickedButtons.Add(button);
             }
         }
+
 
         //Detect false button presses
         if (currentInput >= 0 && currentInput != currentButton)
