@@ -24,9 +24,12 @@ public class MenuHandler : MonoBehaviour {
         
         if (trans)
         {
+            done = true;
             StartCoroutine(nextLevel());
         }
 
+
+        Debug.Log(done);
 
         if (Input.GetKeyDown("joystick 1 button 0") && !p1Done && !done )
         {
@@ -55,7 +58,7 @@ public class MenuHandler : MonoBehaviour {
 
         if(p1Done && p2Done)
         {
-            done = !done;
+            done = true;
             StartCoroutine(nextLevel());
         }
 
