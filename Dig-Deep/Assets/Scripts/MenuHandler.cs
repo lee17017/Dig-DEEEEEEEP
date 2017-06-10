@@ -51,7 +51,7 @@ public class MenuHandler : MonoBehaviour {
 
     IEnumerator nextLevel(float time)
     {       
-        yield return new WaitForSeconds(time);
-        Application.LoadLevel(1);
+        yield return new WaitForSeconds(time);        
+        SceneManager.LoadScene(1);
     }
 }
