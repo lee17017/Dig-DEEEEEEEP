@@ -39,7 +39,10 @@ public class GameManager : MonoBehaviour {
 
     //Anzahl erlaubter Fehler bevor man gestunned wird
     public int FehlerAnzahl;
-    
+
+    public float speedFeedback;
+    public int speedFeedbackResponseTime;
+
     void Awake()
     {
         current = this;

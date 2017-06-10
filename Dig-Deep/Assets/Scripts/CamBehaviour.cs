@@ -3,17 +3,22 @@ using System.Collections;
 
 public class CamBehaviour : MonoBehaviour {
 
-    public GameObject player;
+    public GameObject playerObject;
+    public Player player;
     private Vector3 offset;
+
+    public float speedOffset;
 
     void Start()
     {
-        offset = transform.position - player.transform.position;
+        offset = transform.position - playerObject.transform.position;
+        player = playerObject.GetComponent<Player>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = player.transform.position + offset;
+        speedOffset = Mathf.Lerp(speedOffset, player.spinsPerSecond * GameManager.current.speedFeedback, GameManager.current.speedFeedbackResponseTime/100f);
+        transform.position = playerObject.transform.position + offset + Vector3.up*speedOffset;
     }
 }

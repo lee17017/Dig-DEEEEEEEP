@@ -260,4 +260,10 @@ public class Player : MonoBehaviour {
 
 
     }
+
+    // Gives speed Feedback
+    public void SpeedFeedback()
+    {
+
+    }
 }
