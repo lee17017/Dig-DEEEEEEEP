@@ -41,7 +41,6 @@ public class Tiling : MonoBehaviour {
             }
         }
 
-        Debug.Log(sprites);
         if (sprites.Length > 0)
         {
             int anz = UnityEngine.Random.Range(1, 5);
