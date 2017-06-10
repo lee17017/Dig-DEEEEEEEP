@@ -19,25 +19,9 @@ public class Player : MonoBehaviour {
     public float spinsPerSecond;
     [SerializeField]
     public Queue<int> spinSpeedSaves;
-    public float secondsSmoothed;
-
-
-    [SerializeField]
-    Canvas canvas;
-
+    
     [SerializeField]
     Image defaultImage;
-
-    [SerializeField]
-    Sprite[] ButtonSprites;
-
-    [SerializeField]
-    float spawnIntervalBase;
-    [SerializeField]
-    float travelspeedBase;
-    [SerializeField]
-    float distance;
-    public float speedMultiplier;
 
     private float timeSinceLastSpawn = 0;
 
@@ -56,7 +40,7 @@ public class Player : MonoBehaviour {
 
         spinSpeedSaves = new Queue<int>();
 
-        for(int i=0; i<secondsSmoothed*60; i++)
+        for(int i=0; i< GameManager.current.secondsSmoothed *60; i++)
         {
             spinSpeedSaves.Enqueue(0);
         }
@@ -78,8 +62,8 @@ public class Player : MonoBehaviour {
     public void ButtonMovement()
     {
         //Calculates Movement speed and spawn rate
-        float Speed = Mathf.Max(travelspeedBase * spinsPerSecond * speedMultiplier, travelspeedBase) * Time.deltaTime;
-        float SpawnTime = distance / Speed * Time.deltaTime;
+        float Speed = Mathf.Max(GameManager.current.travelspeedBase * spinsPerSecond * GameManager.current.speedMultiplier, GameManager.current.travelspeedBase) * Time.deltaTime;
+        float SpawnTime = GameManager.current.distance / Speed * Time.deltaTime;
 
         //Button Spawning
         timeSinceLastSpawn += Time.deltaTime;
@@ -88,37 +72,27 @@ public class Player : MonoBehaviour {
         {
             timeSinceLastSpawn = 0;
 
-            Image newButton = Image.Instantiate(defaultImage, transform);
-            newButton.transform.SetParent(canvas.transform, false);
-            newButton.transform.SetAsFirstSibling();
-            newButton.sprite = ButtonSprites[Random.Range(0, ButtonSprites.Length)];
+            Image newButton = Image.Instantiate(defaultImage);
+            newButton.transform.SetParent(GameManager.current.canvas.transform, false);
+            newButton.transform.SetAsLastSibling();
+            newButton.sprite = GameManager.current.ButtonSprites[Random.Range(0, GameManager.current.ButtonSprites.Length)];
+            newButton.color = new Color(1,1,1,1);
             currentActiveButtons.Add(newButton);
         }
 
         //Button movement
         foreach (Image button in currentActiveButtons)
         {
-            button.transform.position = button.transform.position + Vector3.left * Speed;
-        }
-        foreach (Image button in clickedButtons)
-        {
-            button.transform.position = button.transform.position + Vector3.left * Speed;
+            button.transform.position = button.transform.position + Vector3.down * Speed;
         }
 
         //Button Destroying
-        if (currentActiveButtons.Count > 0 && currentActiveButtons[0].transform.position.x < 0)
+        if (currentActiveButtons.Count > 0 && currentActiveButtons[0].transform.position.y < 50)
         {
             falseClicked++;
             Destroy(currentActiveButtons[0].gameObject);
             currentActiveButtons.RemoveAt(0);
         }
-        if (clickedButtons.Count > 0 && clickedButtons[0].transform.position.x < 0)
-        {
-            falseClicked++;
-            Destroy(clickedButtons[0].gameObject);
-            clickedButtons.RemoveAt(0);
-        }
-
     }
 
     //Handles Button Presses and Detection
@@ -153,19 +127,19 @@ public class Player : MonoBehaviour {
         if (currentActiveButtons.Count > 0)
         {
             //Button befindet sich über dem Strich
-            if (currentActiveButtons[0].sprite.Equals(ButtonSprites[0]))
+            if (currentActiveButtons[0].sprite.Equals(GameManager.current.ButtonSprites[0]))
             {
                 currentButton = 0;
             }
-            else if (currentActiveButtons[0].sprite.Equals(ButtonSprites[1]))
+            else if (currentActiveButtons[0].sprite.Equals(GameManager.current.ButtonSprites[1]))
             {
                 currentButton = 1;
             }
-            else if (currentActiveButtons[0].sprite.Equals(ButtonSprites[2]))
+            else if (currentActiveButtons[0].sprite.Equals(GameManager.current.ButtonSprites[2]))
             {
                 currentButton = 2;
             }
-            else if (currentActiveButtons[0].sprite.Equals(ButtonSprites[3]))
+            else if (currentActiveButtons[0].sprite.Equals(GameManager.current.ButtonSprites[3]))
             {
                 currentButton = 3;
             }
