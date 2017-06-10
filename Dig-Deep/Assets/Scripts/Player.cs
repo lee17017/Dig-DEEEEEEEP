@@ -19,6 +19,9 @@ public class Player : MonoBehaviour {
     public float spinsPerSecond;
     [SerializeField]
     public Queue<int> spinSpeedSaves;
+
+    public float correctPerSecond;
+    public Queue<int> correctButtonPresses;
     
     [SerializeField]
     Image defaultImage;
@@ -39,10 +42,16 @@ public class Player : MonoBehaviour {
         currentActiveButtons = new List<Image>();
 
         spinSpeedSaves = new Queue<int>();
+        correctButtonPresses = new Queue<int>();
 
         for(int i=0; i< GameManager.current.secondsSmoothed *60; i++)
         {
             spinSpeedSaves.Enqueue(0);
+
+        }
+        for(int i=0; i<GameManager.current.clickSecondsSmoothed*60; i++)
+        {
+            correctButtonPresses.Enqueue(0);
         }
     }
 	
@@ -50,7 +59,12 @@ public class Player : MonoBehaviour {
 	void Update ()
     {
         if (GameManager.current.run)
-        {           
+        {
+            correctPerSecond = 0;
+            foreach(int click in correctButtonPresses)
+            {
+                correctPerSecond += click;
+            }
             ButtonMovement();
             ButtonHandling();
         }
@@ -148,7 +162,6 @@ public class Player : MonoBehaviour {
 
         if (currentActiveButtons.Count > 0)
         {
-            //Button befindet sich über dem Strich
             if (currentActiveButtons[0].sprite.Equals(GameManager.current.ButtonSprites[0]))
             {
                 currentButton = 0;
@@ -170,11 +183,18 @@ public class Player : MonoBehaviour {
             {
                 //Handle correct pressed button logic
                 correctClicked++;
+                correctButtonPresses.Enqueue(1);
+                correctButtonPresses.Dequeue();
 
                 //move button to already clicked so it doesn't get clicked again
                 DestroyImmediate(currentActiveButtons[0].gameObject);
                 currentActiveButtons.RemoveAt(0);
                 //clickedButtons.Add(button);
+            }
+            else
+            {
+                correctButtonPresses.Enqueue(0);
+                correctButtonPresses.Dequeue();
             }
         }
 
@@ -251,6 +271,13 @@ public class Player : MonoBehaviour {
             spinSpeedSaves.Enqueue(0);
         }
 
+        correctPerSecond = 0;
+        for(int i=0; i<GameManager.current.clickSecondsSmoothed*60; i++)
+        {
+            correctButtonPresses.Dequeue();
+            correctButtonPresses.Enqueue(0);
+        }
+
         //löscht alle buttons des Spieler
         foreach(Image button in currentActiveButtons)
         {
@@ -258,12 +285,6 @@ public class Player : MonoBehaviour {
         }
         currentActiveButtons.Clear();
 
-
-    }
-
-    // Gives speed Feedback
-    public void SpeedFeedback()
-    {
 
     }
 }

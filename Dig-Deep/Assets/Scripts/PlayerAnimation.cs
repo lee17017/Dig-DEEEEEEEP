@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour {
-    public int pSpeed;
+    public float pSpeed;
+    
     public int distance;
     public bool win;
     public GameObject winSprite, loseSprite;
@@ -120,6 +121,8 @@ public class PlayerAnimation : MonoBehaviour {
     }
     // Update is called once per frame
     void Update () {
+
+        pSpeed = GameManager.current.baseSpeed + GetComponent<Player>().spinsPerSecond * GameManager.current.speedEffect;
        
         transform.Translate(Vector3.down * Time.deltaTime * pSpeed);
 
