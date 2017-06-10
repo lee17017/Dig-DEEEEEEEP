@@ -8,7 +8,8 @@ public class PlayerAnimation : MonoBehaviour {
     public bool win;
     public GameObject winSprite, loseSprite;
     public int playerNr;
-    public GameObject act, next;
+    public GameObject act, next, darkEarth;
+    private bool switching = false, switching2 = false;
     IEnumerator Animation()
     {
         //Move
@@ -63,33 +64,60 @@ public class PlayerAnimation : MonoBehaviour {
     void switchField()
     {
         
-        transform.position = new Vector3(transform.position.x, 30, transform.position.z);
-        act.transform.position = act.transform.position + Vector3.up * 32;
-        next.transform.position = next.transform.position + Vector3.up * 32;
-        act.GetComponent<Tiling>().numb = playerNr * 10 + 2;
         next.GetComponent<Tiling>().numb = playerNr * 10 + 1;
-        StartCoroutine(switchNext());
+        
     }
-    IEnumerator switchNext()
+    void switchField2()
     {
-        while (transform.position.y > 16)
-        {
-            yield return new WaitForEndOfFrame();
-        }
+        switching2 = true;
+        act.GetComponent<Tiling>().numb = playerNr * 10 + 2;
+    }
+    void switchNext()
+    {
+
+        switching = true;
         act.transform.position = next.transform.position - Vector3.up * 32;
         GameObject temp = act;
         act = next;
         next = temp;
         next.GetComponent<Tiling>().init();
+        act.GetComponent<Tiling>().removeShit();
+        darkEarth.transform.Translate(Vector3.down * 32);
     }
-	// Update is called once per frame
-	void Update () {
-
+    int mod(int a, int b)
+    {
+        return (a % b + b) % b;
+    }
+    // Update is called once per frame
+    void Update () {
+       
         transform.Translate(Vector3.down * Time.deltaTime * pSpeed);
-        
-        if (transform.position.y <= 2)
+
+        if ((mod((int)transform.position.y, 32) <= 16 && !switching))
         {
-            switchField();
+            switchNext();
+        }
+
+        if (mod((int)(transform.position.y), 32) <= 1)
+        {
+           switchField();
+        }
+
+        if (mod((int)(transform.position.y), 32) >= 31 && !switching2)
+        {
+            switchField2();
+        }
+
+
+
+        if (switching && (mod((int)transform.position.y, 32) >= 20))
+            {
+            switching = false;
+            }
+
+        if (switching2 && (mod((int)transform.position.y, 32) >= 20))
+        {
+            switching2 = false;
         }
     }
 }
