@@ -1,1 +1,5 @@
+<<<<<<< HEAD
+1900 Hello 1900 x3lq 1080 jimmy 1000 luke 800 john
+=======
 1000 YouAreAFooooooooooool.JustAJoke:P 1000 YouAreAFooooooooooool.JustAJoke:P 100 Test1 90 Test2 80 Test3 60 Test4 50 Test5
+>>>>>>> master

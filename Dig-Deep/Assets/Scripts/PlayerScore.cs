@@ -26,7 +26,7 @@ public class PlayerScore : MonoBehaviour {
         p2depth += (int)((p2speed) * p2multiplyer);
         if (p1value){p1score += 10/p1multiplyer;}
         if (p2value){p2score += 10 / p2multiplyer;}
-        Debug.Log(p1depth + " " + p1score + " " + p2depth + " " + p2score);
+        //Debug.Log(p1depth + " " + p1score + " " + p2depth + " " + p2score);
 
         //Testcode
         //if (Input.GetButtonDown("Fire1"))
@@ -86,7 +86,7 @@ public class PlayerScore : MonoBehaviour {
         //Füge neues Score ein
         string[] wordlist = scorelist.Split();
         int length=wordlist.Length;
-        Debug.Log(length);
+        //Debug.Log(length);
         if (length % 2 != 0||length<2)
         {
             scorelist = score + " " + name;
@@ -102,7 +102,7 @@ public class PlayerScore : MonoBehaviour {
             {
                 int compare;
                 Int32.TryParse(wordlist[i], out compare);
-                Debug.Log("Vergleich: " + score + " " + compare);
+                //Debug.Log("Vergleich: " + score + " " + compare);
                 if (score > compare)
                 {
                     if (i > 18)
@@ -113,7 +113,7 @@ public class PlayerScore : MonoBehaviour {
                     }
                     wordlist[i] = score + " " + name + " " + wordlist[i];
                     changed = true;
-                    Debug.Log(wordlist[i]);
+                    //Debug.Log(wordlist[i]);
                     break;
                 }
             }
@@ -131,7 +131,7 @@ public class PlayerScore : MonoBehaviour {
                     scorelist += " ";
                 }
             }
-            Debug.Log("Liste: " + scorelist);
+            //Debug.Log("Liste: " + scorelist);
         }
         System.IO.File.WriteAllText(Application.dataPath + "//resources//scores.txt", scorelist);//Schreibe in txt
     }
