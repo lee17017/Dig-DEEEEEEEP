@@ -20,7 +20,7 @@ public class PlayerScore : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        StartCoroutine(Termination());
+  //      StartCoroutine(Termination());
 	}
 	
 	// Update is called once per frame
