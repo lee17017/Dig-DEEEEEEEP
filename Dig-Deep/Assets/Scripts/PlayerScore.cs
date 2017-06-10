@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 
 public class PlayerScore : MonoBehaviour {
@@ -42,6 +43,7 @@ public class PlayerScore : MonoBehaviour {
         //    writeToBoard("Test5", 50);
         //    writeToBoard("Test4", 60);
         //}
+        updateTime();
 	}
 
     public void setMultiplyer(bool player, int materialID)
@@ -182,5 +184,14 @@ public class PlayerScore : MonoBehaviour {
         {
             Debug.Log("There is no winner... (Sudden Death ist available for only 2$. Just search for it in our InAppPurchase-section");
         }
+    }
+
+    //Stoppuhr:
+    public GameObject time;
+    private int timeTotal = 30;
+    private float timeLeft = 30;
+    private void updateTime(){
+        timeLeft-=Time.deltaTime;
+        time.GetComponent<Image>().fillAmount = timeLeft / timeTotal;
     }
 }
