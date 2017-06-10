@@ -49,15 +49,20 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        ButtonMovement();
-        ButtonHandling();
-
+        if (GameManager.current.run)
+        {
+            ButtonMovement();
+            ButtonHandling();
+        }
         
     }
 
     void FixedUpdate()
     {
-        SpinInput();
+        if (GameManager.current.run)
+        {
+            SpinInput();
+        }
     }
 
     //Handles Button Spawning, movement and destruction
