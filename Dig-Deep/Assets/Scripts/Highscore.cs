@@ -23,7 +23,8 @@ public class Highscore : MonoBehaviour {
     {
         list.gameObject.SetActive(false);
         input.SetActive(false);
-        plyerStat = 2000;
+        
+        plyerStat = 0;
     }
 
     private void Start()
