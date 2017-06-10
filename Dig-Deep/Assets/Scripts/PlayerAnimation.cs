@@ -91,6 +91,42 @@ public class PlayerAnimation : MonoBehaviour {
                 break;
         }
 	}
+    
+    // Update is called once per frame
+    void Update()
+    {
+
+        pSpeed = GameManager.current.baseSpeed + GetComponent<Player>().correctPerSecond * GameManager.current.speedEffect;
+
+        transform.Translate(Vector3.down * Time.deltaTime * pSpeed);
+
+        if ((mod((int)transform.position.y, 32) <= 16 && !switching))
+        {
+            switchNext();
+        }
+
+        if (mod((int)(transform.position.y), 32) <= 1)
+        {
+            switchField();
+        }
+
+        if (mod((int)(transform.position.y), 32) >= 31 && !switching2)
+        {
+            switchField2();
+        }
+
+
+
+        if (switching && (mod((int)transform.position.y, 32) >= 20))
+        {
+            switching = false;
+        }
+
+        if (switching2 && (mod((int)transform.position.y, 32) >= 20))
+        {
+            switching2 = false;
+        }
+    }
 
     void switchField()
     {
@@ -118,39 +154,5 @@ public class PlayerAnimation : MonoBehaviour {
     int mod(int a, int b)
     {
         return (a % b + b) % b;
-    }
-    // Update is called once per frame
-    void Update () {
-
-        pSpeed = GameManager.current.baseSpeed + GetComponent<Player>().spinsPerSecond * GameManager.current.speedEffect;
-       
-        transform.Translate(Vector3.down * Time.deltaTime * pSpeed);
-
-        if ((mod((int)transform.position.y, 32) <= 16 && !switching))
-        {
-            switchNext();
-        }
-
-        if (mod((int)(transform.position.y), 32) <= 1)
-        {
-           switchField();
-        }
-
-        if (mod((int)(transform.position.y), 32) >= 31 && !switching2)
-        {
-            switchField2();
-        }
-
-
-
-        if (switching && (mod((int)transform.position.y, 32) >= 20))
-            {
-            switching = false;
-            }
-
-        if (switching2 && (mod((int)transform.position.y, 32) >= 20))
-        {
-            switching2 = false;
-        }
     }
 }
