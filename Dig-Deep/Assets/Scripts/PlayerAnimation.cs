@@ -10,6 +10,11 @@ public class PlayerAnimation : MonoBehaviour {
     public int playerNr;
     public GameObject act, next, darkEarth;
     private bool switching = false, switching2 = false;
+
+    [SerializeField]
+    RuntimeAnimatorController drillAnim_default, drillAnim_special;
+
+    
     IEnumerator Animation()
     {
         //Move
@@ -59,6 +64,31 @@ public class PlayerAnimation : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         // StartCoroutine(Animation());
+
+        //Change Animation Controller if a Player is using Easter Egg model
+        switch(playerNr)
+        {
+            case 1:
+                if (GameManager.current.Player1EasterEgg)
+                {
+                    GetComponentInChildren<Animator>().runtimeAnimatorController = drillAnim_special;
+                }
+                else
+                {
+                    GetComponentInChildren<Animator>().runtimeAnimatorController = drillAnim_default;
+                }
+                break;
+            case 2:
+                if (GameManager.current.Player2EasterEgg)
+                {
+                    GetComponentInChildren<Animator>().runtimeAnimatorController = drillAnim_special;
+                }
+                else
+                {
+                    GetComponentInChildren<Animator>().runtimeAnimatorController = drillAnim_default;
+                }
+                break;
+        }
 	}
 
     void switchField()
