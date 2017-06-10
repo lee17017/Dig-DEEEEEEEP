@@ -52,7 +52,7 @@ public class Player : MonoBehaviour {
 
         spinSpeedSaves = new Queue<int>();
 
-        for(int i=0; i<60; i++)
+        for(int i=0; i<240; i++)
         {
             spinSpeedSaves.Enqueue(0);
         }
@@ -61,10 +61,26 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
+        ButtonMovement();
+        ButtonHandling();
+    }
+
+    void FixedUpdate()
+    {
+        SpinInput();
+    }
+
+    //Handles Button Spawning, movement and destruction
+    public void ButtonMovement()
+    {
+        //Calculates Movement speed and spawn rate
+        float Speed = travelspeedBase * spinsPerSecond * Time.deltaTime;
+        float SpawnRate = spawnIntervalBase * (1 / spinsPerSecond);
+
         //Button Spawning
         timeSinceLastSpawn += Time.deltaTime;
 
-        if (timeSinceLastSpawn >= spawnIntervalBase * (1/spinsPerSecond))
+        if (timeSinceLastSpawn >= SpawnRate)
         {
             timeSinceLastSpawn = 0;
 
@@ -78,11 +94,11 @@ public class Player : MonoBehaviour {
         //Button movement
         foreach (Image button in currentActiveButtons)
         {
-            button.transform.position = button.transform.position + Vector3.left * travelspeedBase*spinsPerSecond * Time.deltaTime;
+            button.transform.position = button.transform.position + Vector3.left * Speed;
         }
         foreach (Image button in clickedButtons)
         {
-            button.transform.position = button.transform.position + Vector3.left * travelspeedBase*spinsPerSecond * Time.deltaTime;
+            button.transform.position = button.transform.position + Vector3.left * Speed;
         }
 
         //Button Destroying
@@ -96,6 +112,12 @@ public class Player : MonoBehaviour {
             Destroy(clickedButtons[0].gameObject);
             clickedButtons.RemoveAt(0);
         }
+
+    }
+
+    //Handles Button Presses and Detection
+    public void ButtonHandling()
+    {
 
         //Button Press Handling
         //Get current Button to press
@@ -162,14 +184,7 @@ public class Player : MonoBehaviour {
         {
             falseClicked++;
         }
-
     }
-
-    void FixedUpdate()
-    {
-        SpinInput();
-    }
-
 
     // Calculates Everything For Spin Input
     public void SpinInput()
