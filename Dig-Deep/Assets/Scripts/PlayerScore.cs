@@ -16,7 +16,7 @@ public class PlayerScore : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+        StartCoroutine(Termination());
 	}
 	
 	// Update is called once per frame
@@ -81,5 +81,24 @@ public class PlayerScore : MonoBehaviour {
         int mid = wordlist.Length / 2;
         scorelist += output;
         System.IO.File.WriteAllText(Application.dataPath + "//resources//scores.txt", scorelist);//Schreibe in txt
+    }
+
+    IEnumerator Termination()
+    {
+        yield return new WaitForSeconds(30);
+        int score1 = getFinalScore(true);
+        int score2 = getFinalScore(false);
+        if (score1 < score2)
+        {
+            Debug.Log("Player2 wins!");
+        }
+        else if (score1 > score2)
+        {
+            Debug.Log("Player1 wins!");
+        }
+        else
+        {
+            Debug.Log("There is no winner... (Sudden Death ist available for only 2$. Just search for it in our InAppPurchase-section");
+        }
     }
 }
