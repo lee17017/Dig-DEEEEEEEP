@@ -21,7 +21,7 @@ public class InputManager : MonoBehaviour {
     //***
 
     //*** Buttons
-    public bool a, b, x, y;
+    public bool a, b, x, y, start, select, lb, rb;
     //***
 
 	// Use this for initialization
@@ -89,6 +89,10 @@ public class InputManager : MonoBehaviour {
         b = Input.GetButton("B " + player);
         x = Input.GetButton("X " + player);
         y = Input.GetButton("Y " + player);
+        start = Input.GetButton("Start " + player);
+        select = Input.GetButton("Select " + player);
+        lb = Input.GetButton("LB " + player);
+        rb = Input.GetButton("RB " + player);
     }
 
     //*** Getter & Setter
