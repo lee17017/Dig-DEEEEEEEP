@@ -10,7 +10,9 @@ public class MenuHandler : MonoBehaviour {
     public UnityEvent p1pressedA, p2pressedA, p1pressedB, p2pressedB, transition;
     bool p1Done=false, p2Done=false, done = false;
 
-    
+    private int player1EasterEgg = 0;
+    private int player2EasterEgg = 0;
+
     // Update is called once per frame
     void Update () {
         
@@ -46,10 +48,91 @@ public class MenuHandler : MonoBehaviour {
             StartCoroutine(nextLevel(5));
         }
 
+        //Easter Egg handlling
+        switch (player1EasterEgg)
+        {
+            case 0:
+                if (Input.GetAxis("Vertical 1") > 0)
+                    player1EasterEgg++;
+                break;
+            case 1:
+                if (Input.GetAxis("Vertical 1") < 0)
+                    player1EasterEgg++;
+                break;
+            case 2:
+                if (Input.GetAxis("Horizontal 1") < 0)
+                    player1EasterEgg++;
+                break;
+            case 3:
+                if (Input.GetAxis("Horizontal 1") > 0)
+                    player1EasterEgg++;
+                break;
+            case 4:
+                if (Input.GetAxis("Horizontal 1") < 0)
+                    player1EasterEgg++;
+                break;
+            case 5:
+                if (Input.GetAxis("Horizontal 1") > 0)
+                    player1EasterEgg++;
+                break;
+            case 6:
+                if (Input.GetKeyDown(KeyCode.Joystick1Button1))
+                    player1EasterEgg++;
+                break;
+            case 7:
+                if (Input.GetKeyDown(KeyCode.Joystick1Button2))
+                    player1EasterEgg++;
+                break;
+            case 8:
+                if (Input.GetKeyDown(KeyCode.Joystick1Button7))
+                    GameManager.current.Player1EasterEgg = true;
+                break;
+        }
+        switch (player2EasterEgg)
+        {
+            case 0:
+                if (Input.GetAxis("Vertical 2") > 0)
+                    player2EasterEgg++;
+                break;
+            case 1:
+                if (Input.GetAxis("Vertical 2") < 0)
+                    player2EasterEgg++;
+                break;
+            case 2:
+                if (Input.GetAxis("Horizontal 2") < 0)
+                    player2EasterEgg++;
+                break;
+            case 3:
+                if (Input.GetAxis("Horizontal 2") > 0)
+                    player2EasterEgg++;
+                break;
+            case 4:
+                if (Input.GetAxis("Horizontal 2") < 0)
+                    player2EasterEgg++;
+                break;
+            case 5:
+                if (Input.GetAxis("Horizontal 2") > 0)
+                    player2EasterEgg++;
+                break;
+            case 6:
+                if (Input.GetKeyDown(KeyCode.Joystick2Button1))
+                    player2EasterEgg++;
+                break;
+            case 7:
+                if (Input.GetKeyDown(KeyCode.Joystick2Button2))
+                    player2EasterEgg++;
+                break;
+            case 8:
+                if (Input.GetKeyDown(KeyCode.Joystick2Button7))
+                    GameManager.current.Player2EasterEgg = true;
+                break;
+        }
+
     }
 
     IEnumerator nextLevel(float time)
-    {       
+    {
+
         yield return new WaitForSeconds(time);        
         SceneManager.LoadScene(1);
     }

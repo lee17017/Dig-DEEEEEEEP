@@ -10,7 +10,12 @@ public class GameManager : MonoBehaviour {
     
     public Sprite[] ButtonSprites;
 
+    public int playerScore1;
+    public int playerScore2;
     public int winnerScore;
+
+    public bool Player1EasterEgg;
+    public bool Player2EasterEgg;
 
     public List<int> sequence;
 
