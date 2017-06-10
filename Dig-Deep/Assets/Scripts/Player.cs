@@ -34,6 +34,8 @@ public class Player : MonoBehaviour {
     float spawnIntervalBase;
     [SerializeField]
     float travelspeedBase;
+    [SerializeField]
+    float distance;
 
     private float timeSinceLastSpawn = 0;
 
@@ -52,7 +54,7 @@ public class Player : MonoBehaviour {
 
         spinSpeedSaves = new Queue<int>();
 
-        for(int i=0; i<60; i++)
+        for(int i=0; i<240; i++)
         {
             spinSpeedSaves.Enqueue(0);
         }
@@ -61,10 +63,26 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
+        ButtonMovement();
+        ButtonHandling();
+    }
+
+    void FixedUpdate()
+    {
+        SpinInput();
+    }
+
+    //Handles Button Spawning, movement and destruction
+    public void ButtonMovement()
+    {
+        //Calculates Movement speed and spawn rate
+        float Speed = Mathf.Max(travelspeedBase * spinsPerSecond * 0.15f, travelspeedBase) * Time.deltaTime;
+        float SpawnTime = distance / Speed * Time.deltaTime;
+
         //Button Spawning
         timeSinceLastSpawn += Time.deltaTime;
 
-        if (timeSinceLastSpawn >= spawnIntervalBase * (1/spinsPerSecond))
+        if (timeSinceLastSpawn >= SpawnTime)
         {
             timeSinceLastSpawn = 0;
 
@@ -78,24 +96,32 @@ public class Player : MonoBehaviour {
         //Button movement
         foreach (Image button in currentActiveButtons)
         {
-            button.transform.position = button.transform.position + Vector3.left * travelspeedBase*spinsPerSecond * Time.deltaTime;
+            button.transform.position = button.transform.position + Vector3.left * Speed;
         }
         foreach (Image button in clickedButtons)
         {
-            button.transform.position = button.transform.position + Vector3.left * travelspeedBase*spinsPerSecond * Time.deltaTime;
+            button.transform.position = button.transform.position + Vector3.left * Speed;
         }
 
         //Button Destroying
         if (currentActiveButtons.Count > 0 && currentActiveButtons[0].transform.position.x < 0)
         {
+            falseClicked++;
             Destroy(currentActiveButtons[0].gameObject);
             currentActiveButtons.RemoveAt(0);
         }
         if (clickedButtons.Count > 0 && clickedButtons[0].transform.position.x < 0)
         {
+            falseClicked++;
             Destroy(clickedButtons[0].gameObject);
             clickedButtons.RemoveAt(0);
         }
+
+    }
+
+    //Handles Button Presses and Detection
+    public void ButtonHandling()
+    {
 
         //Button Press Handling
         //Get current Button to press
@@ -150,7 +176,8 @@ public class Player : MonoBehaviour {
 
                     //move button to already clicked so it doesn't get clicked again
                     currentActiveButtons.Remove(button);
-                    clickedButtons.Add(button);
+                    //clickedButtons.Add(button);
+                    DestroyImmediate(button.gameObject);
                 }
 
                 break;
@@ -162,14 +189,7 @@ public class Player : MonoBehaviour {
         {
             falseClicked++;
         }
-
     }
-
-    void FixedUpdate()
-    {
-        SpinInput();
-    }
-
 
     // Calculates Everything For Spin Input
     public void SpinInput()
@@ -203,7 +223,6 @@ public class Player : MonoBehaviour {
         // Full Cycle Completed
         if (up && right && down && left)
         {
-            Debug.Log("Full Cycle...");
             spinSpeedSaves.Enqueue ( 1 );
             spinSpeedSaves.Dequeue();
             up = right = down = left = false;
