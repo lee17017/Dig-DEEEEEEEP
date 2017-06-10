@@ -24,7 +24,7 @@ public class Highscore : MonoBehaviour {
         list.gameObject.SetActive(false);
         input.SetActive(false);
         
-        plyerStat = 0;
+        plyerStat = GameManager.current.winnerScore;
     }
 
     private void Start()

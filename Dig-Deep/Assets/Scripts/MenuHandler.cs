@@ -10,12 +10,10 @@ public class MenuHandler : MonoBehaviour {
     public UnityEvent p1pressedA, p2pressedA, p1pressedB, p2pressedB, transition;
     bool p1Done=false, p2Done=false, done = false;
 
-    public bool pressB;
-
+    
     // Update is called once per frame
     void Update () {
-        p2Done = pressB;
-
+        
         if(Input.GetKeyDown("joystick 1 button 0") && !p1Done && !done )
         {
             p1pressedA.Invoke();
@@ -38,6 +36,7 @@ public class MenuHandler : MonoBehaviour {
         {
             p2pressedB.Invoke();
             p2Done = !p2Done;
+           
         }
 
         if(p1Done && p2Done)
