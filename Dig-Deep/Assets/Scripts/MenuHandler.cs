@@ -29,7 +29,7 @@ public class MenuHandler : MonoBehaviour {
         }
 
 
-        Debug.Log(done);
+        //Debug.Log(done);
 
         if (Input.GetKeyDown("joystick 1 button 0") && !p1Done && !done )
         {
