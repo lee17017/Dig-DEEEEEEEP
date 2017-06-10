@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine.EventSystems;
 
 public class ButtonAnzeige : MonoBehaviour {
-
+    
     enum buttons {orange, blue, red, green };
 
     [SerializeField]
@@ -29,8 +29,8 @@ public class ButtonAnzeige : MonoBehaviour {
     private List<Image> currentActiveButtons;
     private List<Image> clickedButtons;//have already been clicked, will only be moved out and destroyed
 
-    int correctClicked = 0;
-    int falseClicked = 0;
+    public int correctClicked = 0;
+    public int falseClicked = 0;
 
     // Use this for initialization
     void Start()
@@ -83,24 +83,7 @@ public class ButtonAnzeige : MonoBehaviour {
         //Get current Button to press
         int currentButton = -1;
         int currentInput = -1;
-
-        //Inout abfragen
-        if (Input.GetKeyDown(KeyCode.Joystick1Button0))
-        {
-            currentInput = 0;
-        }
-        else if (Input.GetKeyDown(KeyCode.Joystick1Button1))
-        {
-            currentInput = 1;
-        }
-        else if (Input.GetKeyDown(KeyCode.Joystick1Button2))
-        {
-            currentInput = 2;
-        }
-        else if (Input.GetKeyDown(KeyCode.Joystick1Button3))
-        {
-            currentInput = 3;
-        }
+        
 
         foreach (Image button in currentActiveButtons)
         {
