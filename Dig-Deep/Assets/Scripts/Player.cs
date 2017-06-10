@@ -34,6 +34,8 @@ public class Player : MonoBehaviour {
     float spawnIntervalBase;
     [SerializeField]
     float travelspeedBase;
+    [SerializeField]
+    float distance;
 
     private float timeSinceLastSpawn = 0;
 
@@ -74,10 +76,8 @@ public class Player : MonoBehaviour {
     public void ButtonMovement()
     {
         //Calculates Movement speed and spawn rate
-        //float Speed = Mathf.Max(travelspeedBase * spinsPerSecond * 0.1f, travelspeedBase) * Time.deltaTime;
-        float SpawnTime = Mathf.Min(spawnIntervalBase * (1 / Mathf.Sqrt(spinsPerSecond)), spawnIntervalBase);
-        float Speed = (travelspeedBase + travelspeedBase * spinsPerSecond * 0.1f) * Time.deltaTime;
-
+        float Speed = Mathf.Max(travelspeedBase * spinsPerSecond * 0.15f, travelspeedBase) * Time.deltaTime;
+        float SpawnTime = distance / Speed * Time.deltaTime;
 
         //Button Spawning
         timeSinceLastSpawn += Time.deltaTime;
@@ -223,7 +223,6 @@ public class Player : MonoBehaviour {
         // Full Cycle Completed
         if (up && right && down && left)
         {
-            Debug.Log("Full Cycle...");
             spinSpeedSaves.Enqueue ( 1 );
             spinSpeedSaves.Dequeue();
             up = right = down = left = false;
