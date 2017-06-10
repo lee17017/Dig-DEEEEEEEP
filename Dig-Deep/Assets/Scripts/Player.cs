@@ -27,6 +27,8 @@ public class Player : MonoBehaviour {
 
     private List<Image> currentActiveButtons;
 
+    private int sequencePos = 0;
+
     public int correctClicked = 0;
     public int falseClicked = 0;
     //***
@@ -49,6 +51,8 @@ public class Player : MonoBehaviour {
     {
         ButtonMovement();
         ButtonHandling();
+
+        
     }
 
     void FixedUpdate()
@@ -73,7 +77,9 @@ public class Player : MonoBehaviour {
             Image newButton = Image.Instantiate(defaultImage);
             newButton.transform.SetParent(GameManager.current.canvas.transform, false);
             newButton.transform.SetAsLastSibling();
-            newButton.sprite = GameManager.current.ButtonSprites[Random.Range(0, GameManager.current.ButtonSprites.Length)];
+            //newButton.sprite = GameManager.current.ButtonSprites[Random.Range(0, GameManager.current.ButtonSprites.Length)];
+            newButton.sprite = GameManager.current.ButtonSprites[GameManager.current.sequence[sequencePos]];
+            sequencePos++;
             newButton.color = new Color(1,1,1,1);
             currentActiveButtons.Add(newButton);
         }
@@ -90,6 +96,11 @@ public class Player : MonoBehaviour {
             falseClicked++;
             Destroy(currentActiveButtons[0].gameObject);
             currentActiveButtons.RemoveAt(0);
+
+            if(falseClicked % GameManager.current.FehlerAnzahl == 0)
+            {
+                StunPlayer();
+            }
         }
     }
 
@@ -159,6 +170,11 @@ public class Player : MonoBehaviour {
         if (currentInput >= 0 && currentInput != currentButton)
         {
             falseClicked++;
+
+            if(falseClicked % GameManager.current.FehlerAnzahl  == 0)
+            {
+                StunPlayer();
+            }
         }
     }
 
@@ -210,5 +226,25 @@ public class Player : MonoBehaviour {
         {
             spinsPerSecond += speed;
         }
+    }
+
+    //Stuns the player
+    public void StunPlayer()
+    {
+        spinsPerSecond = 0;
+        for (int i = 0; i < GameManager.current.secondsSmoothed * 60; i++)
+        {
+            spinSpeedSaves.Dequeue();
+            spinSpeedSaves.Enqueue(0);
+        }
+
+        //löscht alle buttons des Spieler
+        foreach(Image button in currentActiveButtons)
+        {
+            Destroy(button.gameObject);
+        }
+        currentActiveButtons.Clear();
+
+
     }
 }
