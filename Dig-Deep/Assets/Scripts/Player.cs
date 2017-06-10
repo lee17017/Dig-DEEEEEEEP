@@ -74,13 +74,15 @@ public class Player : MonoBehaviour {
     public void ButtonMovement()
     {
         //Calculates Movement speed and spawn rate
-        float Speed = travelspeedBase * spinsPerSecond * Time.deltaTime;
-        float SpawnRate = spawnIntervalBase * (1 / spinsPerSecond);
+        //float Speed = Mathf.Max(travelspeedBase * spinsPerSecond * 0.1f, travelspeedBase) * Time.deltaTime;
+        float SpawnTime = Mathf.Min(spawnIntervalBase * (1 / Mathf.Sqrt(spinsPerSecond)), spawnIntervalBase);
+        float Speed = (travelspeedBase + travelspeedBase * spinsPerSecond * 0.1f) * Time.deltaTime;
+
 
         //Button Spawning
         timeSinceLastSpawn += Time.deltaTime;
 
-        if (timeSinceLastSpawn >= SpawnRate)
+        if (timeSinceLastSpawn >= SpawnTime)
         {
             timeSinceLastSpawn = 0;
 
@@ -104,11 +106,13 @@ public class Player : MonoBehaviour {
         //Button Destroying
         if (currentActiveButtons.Count > 0 && currentActiveButtons[0].transform.position.x < 0)
         {
+            falseClicked++;
             Destroy(currentActiveButtons[0].gameObject);
             currentActiveButtons.RemoveAt(0);
         }
         if (clickedButtons.Count > 0 && clickedButtons[0].transform.position.x < 0)
         {
+            falseClicked++;
             Destroy(clickedButtons[0].gameObject);
             clickedButtons.RemoveAt(0);
         }
@@ -172,7 +176,8 @@ public class Player : MonoBehaviour {
 
                     //move button to already clicked so it doesn't get clicked again
                     currentActiveButtons.Remove(button);
-                    clickedButtons.Add(button);
+                    //clickedButtons.Add(button);
+                    DestroyImmediate(button.gameObject);
                 }
 
                 break;
