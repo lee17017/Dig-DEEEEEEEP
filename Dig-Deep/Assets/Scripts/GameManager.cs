@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour {
     
     public Sprite[] ButtonSprites;
 
+    public int winnerScore;
+
     public List<int> sequence;
 
     //public float spawnIntervalBase;
@@ -32,9 +34,13 @@ public class GameManager : MonoBehaviour {
         {
             sequence.Add(Random.Range(0, 4));
         }
+
+        GameObject.DontDestroyOnLoad(this);
     }
 
     // Use this for initialization
     void Start () {
 	}
+
+
 }
