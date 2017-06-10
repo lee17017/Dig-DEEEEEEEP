@@ -26,7 +26,6 @@ public class Player : MonoBehaviour {
     private float timeSinceLastSpawn = 0;
 
     private List<Image> currentActiveButtons;
-    private List<Image> clickedButtons;//have already been clicked, will only be moved out and destroyed
 
     public int correctClicked = 0;
     public int falseClicked = 0;
@@ -36,7 +35,6 @@ public class Player : MonoBehaviour {
     void Start ()
     {
         currentActiveButtons = new List<Image>();
-        clickedButtons = new List<Image>();
 
         spinSpeedSaves = new Queue<int>();
 
@@ -62,7 +60,7 @@ public class Player : MonoBehaviour {
     public void ButtonMovement()
     {
         //Calculates Movement speed and spawn rate
-        float Speed = Mathf.Max(GameManager.current.travelspeedBase * spinsPerSecond * GameManager.current.speedMultiplier, GameManager.current.travelspeedBase) * Time.deltaTime;
+        float Speed = Mathf.Max(GameManager.current.travelspeedBase * Mathf.Pow(spinsPerSecond, GameManager.current.powerSpins) * GameManager.current.speedMultiplier, GameManager.current.travelspeedBase) * Time.deltaTime;
         float SpawnTime = GameManager.current.distance / Speed * Time.deltaTime;
 
         //Button Spawning
