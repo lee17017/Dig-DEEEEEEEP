@@ -45,7 +45,6 @@ public class PlayerScore : MonoBehaviour {
         //    writeToBoard("Test5", 50);
         //    writeToBoard("Test4", 60);
         //}
-        updateTime();
 
             p1score = p1Drill.transform.position.y + p1Drill.GetComponent<Player>().correctClicked;
             p2score = p2Drill.transform.position.y + p2Drill.GetComponent<Player>().correctClicked;
@@ -204,12 +203,20 @@ public class PlayerScore : MonoBehaviour {
         }
     }*/
 
-    //Stoppuhr:
-    public GameObject time;
-    private int timeTotal = 30;
-    private float timeLeft = 30;
-    private void updateTime(){
-        timeLeft-=Time.deltaTime;
-        time.GetComponent<Image>().fillAmount = timeLeft / timeTotal;
+    //Spurwechsel:
+    //rotate Drill in Direction if Button is pressed
+    //Move forward untill Lane reached
+    //rotate and follow the new Lane
+    void changeLane()
+    {
+        if (Input.GetButtonDown("Fire1"))
+        {
+            //rotate left
+        }
+        if (Input.GetButtonDown("Fire2"))
+        {
+            //rotate right
+        }
+
     }
 }
