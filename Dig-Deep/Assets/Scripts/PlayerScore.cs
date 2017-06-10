@@ -28,19 +28,20 @@ public class PlayerScore : MonoBehaviour {
         if (p2value){p2score += 10 / p2multiplyer;}
         Debug.Log(p1depth + " " + p1score + " " + p2depth + " " + p2score);
 
-        if (Input.GetButtonDown("Fire1"))
-        {
-            p1speed++;
-        }
-        if (Input.GetButtonDown("Fire2"))
-        {
-            writeToBoard("YouAreAFooooooooooool.JustAJoke:P",1000);
-            writeToBoard("Test1", 100);
-            writeToBoard("Test2", 90);
-            writeToBoard("Test3", 80);
-            writeToBoard("Test5", 50);
-            writeToBoard("Test4", 60);
-        }
+        //Testcode
+        //if (Input.GetButtonDown("Fire1"))
+        //{
+        //    p1speed++;
+        //}
+        //if (Input.GetButtonDown("Fire2"))
+        //{
+        //    writeToBoard("YouAreAFooooooooooool.JustAJoke:P",1000);
+        //    writeToBoard("Test1", 100);
+        //    writeToBoard("Test2", 90);
+        //    writeToBoard("Test3", 80);
+        //    writeToBoard("Test5", 50);
+        //    writeToBoard("Test4", 60);
+        //}
 	}
 
     public void setMultiplyer(bool player, int materialID)
@@ -89,8 +90,6 @@ public class PlayerScore : MonoBehaviour {
         if (length % 2 != 0||length<2)
         {
             scorelist = score + " " + name;
-            //0 -> 0    ->  Write direct            //Done
-            //ungerade  ->  Fehler! File ersetzen   //Done
         }
         else
         {
@@ -106,6 +105,12 @@ public class PlayerScore : MonoBehaviour {
                 Debug.Log("Vergleich: " + score + " " + compare);
                 if (score > compare)
                 {
+                    if (i > 18)
+                    {
+                        wordlist[i - 1] += " " + score + " " + name;
+                        changed = true;
+                        break;
+                    }
                     wordlist[i] = score + " " + name + " " + wordlist[i];
                     changed = true;
                     Debug.Log(wordlist[i]);
@@ -118,7 +123,7 @@ public class PlayerScore : MonoBehaviour {
             }
 
             scorelist = "";
-            for (int i = 0; i < length; i++)
+            for (int i = 0; i < length-2; i++)
             {
                 scorelist += wordlist[i];
                 if (i < length - 1)
@@ -127,45 +132,38 @@ public class PlayerScore : MonoBehaviour {
                 }
             }
             Debug.Log("Liste: " + scorelist);
-            //2 -> 0    ->  convert 1 to int compare und setze dann davor/danach                                1           11/12
-            //4 -> 1    ->  convert 3 to int compare und fahre dann bei 1 fort oder schreibe dahinter           1 3         1/32    11/12  
-            //6 -> 1    ->  convert 3 to int compare und fahre dann bei 1 fort oder teste bei 5                 1 3 5       1/5     11/12 // 51/52
-            //8 -> 2    ->  convert 5 to int compare und fahre dann bei 3 fort oder schreibe dahinter           1 3 5 7     3/7     1/32 // 71/72   11/12
-            //10-> 2    ->  convert 5 to int compare und                                                        1 3 5 7 9   3/7     1/32 // 71/9    11/12 // 91/92
-            //12-> 3    ->  convert 7 to int compare und
         }
-        
         System.IO.File.WriteAllText(Application.dataPath + "//resources//scores.txt", scorelist);//Schreibe in txt
     }
 
     //Methode ist fehlerhaft
-    private string[] binSea(string[] input, int min, int max, int length, string name, int score)
-    {
-        Debug.LogError("binSea() wurde genutzt, obwohl diese Methode fehlerhaft ist");
-        while (min <= max)
-        {
-            int compare;
-            int mid = (min + max) / 2;
-            Int32.TryParse(input[mid * 2], out compare);
-            if (score == compare)
-            {
-                //return ++mid;
-                input[mid * 2+1] += " " + score + " " + name;
-                return input;
-            }
-            else if (score < compare)
-            {
-                max = mid - 1;
-            }
-            else
-            {
-                min = mid + 1;
-            }
+    //private string[] binSea(string[] input, int min, int max, int length, string name, int score)
+    //{
+    //    Debug.LogError("binSea() wurde genutzt, obwohl diese Methode fehlerhaft ist");
+    //    while (min <= max)
+    //    {
+    //        int compare;
+    //        int mid = (min + max) / 2;
+    //        Int32.TryParse(input[mid * 2], out compare);
+    //        if (score == compare)
+    //        {
+    //            //return ++mid;
+    //            input[mid * 2+1] += " " + score + " " + name;
+    //            return input;
+    //        }
+    //        else if (score < compare)
+    //        {
+    //            max = mid - 1;
+    //        }
+    //        else
+    //        {
+    //            min = mid + 1;
+    //        }
 
-        }
-        input[max+1] += " " + score + " " + name;
-        return input;
-    }
+    //    }
+    //    input[max+1] += " " + score + " " + name;
+    //    return input;
+    //}
 
     IEnumerator Termination()
     {
