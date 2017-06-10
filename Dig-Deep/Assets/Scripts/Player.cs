@@ -50,9 +50,17 @@ public class Player : MonoBehaviour {
 	void Update ()
     {
         if (GameManager.current.run)
-        {
+        {           
             ButtonMovement();
             ButtonHandling();
+        }
+        else
+        {
+            foreach(Image cur in currentActiveButtons)
+            {
+                Destroy(cur.gameObject);
+            }
+            currentActiveButtons.Clear();
         }
         
     }
