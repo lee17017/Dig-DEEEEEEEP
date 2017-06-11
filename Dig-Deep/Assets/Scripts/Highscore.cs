@@ -15,8 +15,8 @@ public class Highscore : MonoBehaviour {
     private string playerName;
 
     private bool enterName;
-    
-    string[] scores = { "", "" };
+
+    string[] scores = null; //{ "", "" };
     private bool nameEntered;
 
     private void Awake()
@@ -46,8 +46,8 @@ public class Highscore : MonoBehaviour {
         
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            PlayerScore ps = new PlayerScore();
-            ps.writeToBoard(playerName, plyerStat);
+            
+            PlayerScore.writeToBoard(playerName, plyerStat);
 
             enterName = false;
             nameEntered = true;
@@ -123,9 +123,12 @@ public class Highscore : MonoBehaviour {
     private void printList()
     {
         string display = "";
-        for (int i = 0; i <= scores.Length - 1; i += 2)
+        if (scores != null)
         {
-            display += scores[i] + "\t\t" + scores[i + 1] + "\n";
+            for (int i = 0; i < scores.Length-1; i += 2)
+            {
+                display += scores[i] + "\t\t" + scores[i + 1] + "\n";
+            }
         }
 
         list.text = display;

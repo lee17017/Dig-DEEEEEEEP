@@ -5,23 +5,23 @@ using UnityEngine;
 public class PlayerAnimation : MonoBehaviour {
     public float pSpeed;                                    //Geschwindigkeit des Spielers
     
-    public int distance;                                    //WTF does this?
-    public bool win;                                        //Is this Player winning?
-    public GameObject winSprite, loseSprite;                //Ergebnisanzeigen
-    public int playerNr;                                    //ID des Spielers
-    public GameObject act, next, darkEarth;                 //Bodenplatten auf der Spielerseite
-    private bool switching = false, switching2 = false;     //Don't know what, don't know how...
+    public int distance;public GameObject winSprite, loseSprite;
+    public int playerNr;
+    public GameObject act, next, darkEarth;
+    private bool switching = false, switching2 = false;
+    private float animSpeed = 2;
 
     [SerializeField]
     RuntimeAnimatorController drillAnim_default, drillAnim_special;
 
     
-    IEnumerator Animation()
+    public IEnumerator EndAnimation()
     {
+        yield return new WaitForSeconds(2);
         //Move
         for (int i = 0; i < distance; i++)
         {
-            transform.Translate(Vector3.down*Time.deltaTime* pSpeed);
+            transform.Translate(Vector3.down*Time.deltaTime * animSpeed);
             yield return new WaitForEndOfFrame();
         }
 
@@ -29,42 +29,34 @@ public class PlayerAnimation : MonoBehaviour {
         //Rotate
         for (int i = 0; i < 30; i++)
         {
-            transform.Rotate(new Vector3(0, 0, -3));
-            transform.Translate(Vector3.down * Time.deltaTime * pSpeed);
-            yield return new WaitForEndOfFrame();
-        }
-        //Move
-        for (int i = 0; i < distance/2; i++)
-        {
-            transform.Translate(Vector3.down * Time.deltaTime * pSpeed);
-            yield return new WaitForEndOfFrame();
-        }
-        //Rotate
-        for (int i = 0; i < 60; i++)
-        {
             transform.Rotate(new Vector3(0, 0, 3));
-            transform.Translate(Vector3.down * Time.deltaTime* pSpeed);
+            transform.Translate(Vector3.down * Time.deltaTime* animSpeed);
             yield return new WaitForEndOfFrame();
         }
         for (int i = 0; i < distance / 2; i++)
         {
-            transform.Translate(Vector3.down * Time.deltaTime * pSpeed);
+            transform.Translate(Vector3.down * Time.deltaTime * animSpeed);
             yield return new WaitForEndOfFrame();
         }
-        if (win)
+        if ((playerNr == 1 && GameManager.current.winnerScore == GameManager.current.playerScore1) || (playerNr == 2 && GameManager.current.winnerScore == GameManager.current.playerScore2))
         {
             GameObject temp = (GameObject)Instantiate(winSprite);
             temp.transform.position = new Vector3(pos.x, this.transform.position.y-0.5f, 1);
         }
+        else
+        {
+            GameObject temp = (GameObject)Instantiate(winSprite);
+            temp.transform.position = new Vector3(pos.x, this.transform.position.y - 0.5f, 1);
+        }
         for (int i = 0; i < distance; i++)
         {
-            transform.Translate(Vector3.down * Time.deltaTime * pSpeed);
+            transform.Translate(Vector3.down * Time.deltaTime * animSpeed);
             yield return new WaitForEndOfFrame();
         }
     }
 	// Use this for initialization
 	void Start () {
-        // StartCoroutine(Animation());
+        //StartCoroutine(Animation());
 
         //Change Animation Controller if a Player is using Easter Egg model
         switch(playerNr)
@@ -104,17 +96,7 @@ public class PlayerAnimation : MonoBehaviour {
         {
             if (true/*Input right*/) { 
 
-            }
-            if (true/*Input left*/)
-            {
-
-            }
-        }
-        
-        transform.Translate(Vector3.down * Time.deltaTime * pSpeed);//Bewegung nach unten
-
-        if ((mod((int)transform.position.y, 32) <= 23 && !switching))
-        {
+        if ((mod((int)transform.position.y, 32) <= 16 && !switching))        {
             switchNext();
         }
 
