@@ -9,6 +9,7 @@ public class PlayerAnimation : MonoBehaviour {
     public bool cameraStop=false;
     
     public int distance;
+    public GameObject textPref;
     public GameObject winSprite, loseSprite;
     public int playerNr;
     public GameObject act, next, darkEarth;
@@ -60,11 +61,30 @@ public class PlayerAnimation : MonoBehaviour {
             yield return new WaitForEndOfFrame();
         }
         cameraStop = true;
-        for (int i = 0; i < distance * 3; i++)
+        float x = transform.position.x;
+        for (int i = 0; i < distance * 2.5f; i++)
         {
             transform.Translate(Vector3.down * Time.deltaTime * animSpeed);
             yield return new WaitForEndOfFrame();
         }
+
+        //Rotate
+        for (int i = 0; i < 90; i++)
+        {
+            transform.Rotate(new Vector3(0, 0, playerNr == 1 ? 2 : -2));
+            transform.Translate(Vector3.down * Time.deltaTime * animSpeed);
+            yield return new WaitForEndOfFrame();
+        }
+
+        temp = Instantiate(textPref);
+        temp.GetComponent<TextMesh>().text = "" + (playerNr== 1 ? GameManager.current.playerScore1 : GameManager.current.playerScore2)+"m";
+        temp.transform.position = new Vector3(x, transform.position.y, 0.5f);
+        for (int i = 0; i < distance*5; i++)
+        {   
+            transform.Translate(Vector3.down * Time.deltaTime * animSpeed);
+            yield return new WaitForEndOfFrame();
+        }
+
         yield return new WaitForSeconds(3);
         SceneManager.LoadScene(2);
     }
