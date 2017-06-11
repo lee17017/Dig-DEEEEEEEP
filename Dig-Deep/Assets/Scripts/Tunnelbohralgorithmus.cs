@@ -112,6 +112,13 @@ public class Tunnelbohralgorithmus : MonoBehaviour {
                 transform.Rotate(new Vector3(0, 0, direction < 0 ? 3 : -3));
                 yield return new WaitForEndOfFrame();
             }
+
+            while (!(transform.position.x < goal + 0.1f && transform.position.x > goal - 0.1f))
+            {
+                transform.position = Vector3.Lerp(transform.position, new Vector3(goal, transform.position.y, transform.position.z), 0.2f);
+                yield return null;
+            }
+
             switching = false;
         }
     }
