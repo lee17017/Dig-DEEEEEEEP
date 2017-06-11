@@ -326,7 +326,7 @@ public class Player : MonoBehaviour {
         PlayerIndex playerIndex;
 
         
-        PlayerIndex testPlayerIndex = (PlayerIndex)i;
+        PlayerIndex testPlayerIndex = (PlayerIndex)((i+1)%2);
         GamePadState testState = GamePad.GetState(testPlayerIndex);
         if (testState.IsConnected)
         {

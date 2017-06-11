@@ -18,7 +18,7 @@ public class CamBehaviour : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        speedOffset = Mathf.Lerp(speedOffset, player.correctPerSecond * GameManager.current.speedFeedback, GameManager.current.speedFeedbackResponseTime/100f);
+        speedOffset = Mathf.Lerp(speedOffset, player.correctPerSecondd * GameManager.current.speedFeedback, GameManager.current.speedFeedbackResponseTime/100f);
         transform.position = playerObject.transform.position + offset + Vector3.up*speedOffset;
     }
 }
