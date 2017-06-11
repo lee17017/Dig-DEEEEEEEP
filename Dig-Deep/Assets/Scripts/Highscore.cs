@@ -81,8 +81,7 @@ public class Highscore : MonoBehaviour {
     {
         while (enterName)
         {
-            playerName = userInput.text;
-                       
+            playerName = userInput.text.Replace(' ', '_');
             yield return new WaitForEndOfFrame();
         }
     }
@@ -127,7 +126,7 @@ public class Highscore : MonoBehaviour {
         {
             for (int i = 0; i < scores.Length-1; i += 2)
             {
-                display += scores[i] + "\t\t" + scores[i + 1] + "\n";
+                display += scores[i] + "\t\t\t" + scores[i + 1] + "\n";
             }
         }
 
