@@ -23,15 +23,18 @@ public class Spawner : MonoBehaviour {
     }
     // Update is called once per frame
     void Update () {
-        transform.position = new Vector3(xStart, transform.position.y, transform.position.z);
-
-        if (spawnTimeCur < 0)
+        if (!transform.parent.GetComponent<Player>().obstacle && GameManager.current.run)
         {
-            spawnTimeCur = Rn(1, 4);
-            StartCoroutine(spawnObject(Rn(spawner.Length-1), Rn(obstacles.Length - 1)));
-        }
+            transform.position = new Vector3(xStart, transform.position.y, transform.position.z);
 
-        spawnTimeCur -= Time.deltaTime;
+            if (spawnTimeCur < 0)
+            {
+                spawnTimeCur = Rn(1, 4);
+                StartCoroutine(spawnObject(Rn(spawner.Length - 1), Rn(obstacles.Length - 1)));
+            }
+
+            spawnTimeCur -= Time.deltaTime;
+        }
 	}
 
     int Rn(int max)

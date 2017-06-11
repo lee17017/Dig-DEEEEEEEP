@@ -51,6 +51,9 @@ public class GameManager : MonoBehaviour {
     public int[] hitsNeeded;
     public int[] buttonNeeded;
 
+    // Lanes
+    public float laneDistance;
+
     void Awake()
     {
         current = this;
