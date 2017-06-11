@@ -282,6 +282,8 @@ public class Player : MonoBehaviour {
     //Stuns the player
     public void StunPlayer()
     {
+        AudioSource.PlayClipAtPoint(GameManager.current.stunClip, transform.position, 1f);
+
         StartCoroutine(vibrateController(player - 1));
         spinsPerSecond = 0;
         for (int i = 0; i < GameManager.current.secondsSmoothed * 60; i++)

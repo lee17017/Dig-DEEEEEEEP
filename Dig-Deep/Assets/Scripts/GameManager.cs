@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
+    public AudioClip stunClip;
+
     public static GameManager current;
        
     public Canvas canvas;
