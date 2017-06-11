@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
+    public AudioClip stunClip;
+
     public static GameManager current;
        
     public Canvas canvas;
@@ -50,6 +52,9 @@ public class GameManager : MonoBehaviour {
     // Obstacles
     public int[] hitsNeeded;
     public int[] buttonNeeded;
+
+    // Lanes
+    public float laneDistance;
 
     void Awake()
     {
