@@ -5,7 +5,7 @@ using UnityEngine;
 public class Schild : MonoBehaviour {
 
 
-    public GameOb
+    
 	// Use this for initialization
 	void Start () {
 		
