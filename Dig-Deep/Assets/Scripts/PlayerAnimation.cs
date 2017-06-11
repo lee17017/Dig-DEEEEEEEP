@@ -100,7 +100,7 @@ public class PlayerAnimation : MonoBehaviour {
 
         transform.Translate(Vector3.down * Time.deltaTime * pSpeed);
 
-        if ((mod((int)transform.position.y, 32) <= 16 && !switching))
+        if ((mod((int)transform.position.y, 32) <= 23 && !switching))
         {
             switchNext();
         }
@@ -117,7 +117,7 @@ public class PlayerAnimation : MonoBehaviour {
 
 
 
-        if (switching && (mod((int)transform.position.y, 32) >= 20))
+        if (switching && (mod((int)transform.position.y, 32) >= 26))
         {
             switching = false;
         }

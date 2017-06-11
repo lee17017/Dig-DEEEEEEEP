@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using XInputDotNetPure;
 
 public class Player : MonoBehaviour {
     
@@ -53,6 +54,8 @@ public class Player : MonoBehaviour {
         {
             correctButtonPresses.Enqueue(0);
         }
+
+        //StartCoroutine(findControllerIndex());
     }
 	
 	// Update is called once per frame
@@ -264,6 +267,7 @@ public class Player : MonoBehaviour {
     //Stuns the player
     public void StunPlayer()
     {
+        StartCoroutine(vibrateController(player - 1));
         spinsPerSecond = 0;
         for (int i = 0; i < GameManager.current.secondsSmoothed * 60; i++)
         {
@@ -286,5 +290,57 @@ public class Player : MonoBehaviour {
         currentActiveButtons.Clear();
 
 
+    }
+
+    IEnumerator findControllerIndex()
+    {
+        bool playerIndexSet = false;
+        PlayerIndex playerIndex;
+
+        for (int i = 0; i < 4; ++i)
+        {
+            Debug.Log(i);
+            PlayerIndex testPlayerIndex = (PlayerIndex)i;
+            GamePadState testState = GamePad.GetState(testPlayerIndex);
+            if (testState.IsConnected)
+            {
+                Debug.Log(string.Format("GamePad found {0}", testPlayerIndex));
+                playerIndex = testPlayerIndex;
+                playerIndexSet = true;
+
+                GamePad.SetVibration(playerIndex, 0.2f, 0.2f);
+                yield return new WaitForSeconds(2);
+                GamePad.SetVibration(playerIndex, 0f, 0f);
+
+            }
+
+            
+        }
+
+       
+    }
+
+    IEnumerator vibrateController(int i)
+    {
+        bool playerIndexSet = false;
+        PlayerIndex playerIndex;
+
+        
+        PlayerIndex testPlayerIndex = (PlayerIndex)i;
+        GamePadState testState = GamePad.GetState(testPlayerIndex);
+        if (testState.IsConnected)
+        {
+            Debug.Log(string.Format("GamePad found {0}", testPlayerIndex));
+            playerIndex = testPlayerIndex;
+            playerIndexSet = true;
+
+            GamePad.SetVibration(playerIndex, 0.2f, 0.2f);
+            yield return new WaitForSeconds(2);
+            GamePad.SetVibration(playerIndex, 0f, 0f);
+
+        }
+
+
+        
     }
 }

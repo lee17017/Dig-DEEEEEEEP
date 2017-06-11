@@ -24,10 +24,7 @@ public class Tiling : MonoBehaviour {
         Debug.Log(height);
         for (int x = 0; x < width; x++)
         {
-            for (int y = 0; y < 2; y++)
-            {
-                sprite.texture.SetPixels32(x * tex.width, y * tex.height, tex.width, tex.height, tex.GetPixels32());
-            }
+                sprite.texture.SetPixels32(x * tex.width, 0, tex.width, tex.height, tex.GetPixels32());
         }
         sprite.texture.Apply(true);
     }
@@ -55,7 +52,7 @@ public class Tiling : MonoBehaviour {
                 do
                 {
                     x = (int)UnityEngine.Random.Range(0, width * tex.width - sprites[0].width);
-                    y = (int)UnityEngine.Random.Range(0, height * tex.height - sprites[0].height);
+                    y = (int)UnityEngine.Random.Range(tex.height, height * tex.height - sprites[0].height);
                     for (int j = 0; j < i; j++)
                     {
                         if (x > xpos[j] - sprites[0].width && x < xpos[j] + sprites[0].width && y > ypos[j] - sprites[0].height && y < ypos[j] + sprites[0].height)
