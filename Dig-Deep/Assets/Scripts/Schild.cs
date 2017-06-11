@@ -32,7 +32,7 @@ public class Schild : MonoBehaviour {
 
             tiefe *= 25;
             point.text = tiefe.ToString();
-            StartCoroutine(displaySheeld());
+            //StartCoroutine(displaySheeld());
         }
 
 		
