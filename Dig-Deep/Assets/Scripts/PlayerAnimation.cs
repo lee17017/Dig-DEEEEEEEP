@@ -94,32 +94,33 @@ public class PlayerAnimation : MonoBehaviour {
         bool switching = false;
         if (!switching)
         {
-            if (true/*Input right*/) { 
+            if (true/*Input right*/)
+            {
+                if ((mod((int)transform.position.y, 32) <= 16 && !switching))
+                {
+                    switchNext();
+                }
 
-        if ((mod((int)transform.position.y, 32) <= 16 && !switching))        {
-            switchNext();
-        }
+                if (mod((int)(transform.position.y), 32) <= 1)
+                {
+                    switchField();
+                }
 
-        if (mod((int)(transform.position.y), 32) <= 1)
-        {
-            switchField();
-        }
+                if (mod((int)(transform.position.y), 32) >= 31 && !switching2)
+                {
+                    switchField2();
+                }
 
-        if (mod((int)(transform.position.y), 32) >= 31 && !switching2)
-        {
-            switchField2();
-        }
+                if (switching && (mod((int)transform.position.y, 32) >= 26))
+                {
+                    switching = false;
+                }
 
-
-
-        if (switching && (mod((int)transform.position.y, 32) >= 26))
-        {
-            switching = false;
-        }
-
-        if (switching2 && (mod((int)transform.position.y, 32) >= 20))
-        {
-            switching2 = false;
+                if (switching2 && (mod((int)transform.position.y, 32) >= 20))
+                {
+                    switching2 = false;
+                }
+            }
         }
     }
 
