@@ -7,10 +7,10 @@ using System;
 public class PlayerScore : MonoBehaviour {
     public GameObject p1Drill, p2Drill;
 
-    private float p1score = 0;        //Extrascore des Spielers
-    private float p2score = 0;
-    private float p1depth = 0;        //Depthscore des Spielers
-    private float p2depth = 0; 
+    private int p1score = 0;        //Extrascore des Spielers
+    private int p2score = 0;
+    private int p1depth = 0;        //Depthscore des Spielers
+    private int p2depth = 0; 
     private int p1multiplyer = 1;   //Material-Multiplyer
     private int p2multiplyer = 1;
     public float p1speed = 0;       //relative Geschwindigkeit des Spielers
@@ -48,8 +48,8 @@ public class PlayerScore : MonoBehaviour {
         
 
 
-            p1score = p1Drill.transform.position.y - 162;
-            p2score = p2Drill.transform.position.y - 162;
+            p1score =(int) -(p1Drill.transform.position.y - 162);
+            p2score =(int) -(p2Drill.transform.position.y - 162);
 
         GameManager.current.playerScore1 = (int)p1score;
         GameManager.current.playerScore2 = (int)p2score;
@@ -97,7 +97,7 @@ public class PlayerScore : MonoBehaviour {
         
     }*/
 
-    public void writeToBoard(string name, int score)
+    public static void writeToBoard(string name, int score)
     {
         string scorelist="";
         if (System.IO.File.Exists(Application.dataPath + "//resources//scores.txt"))
@@ -107,7 +107,7 @@ public class PlayerScore : MonoBehaviour {
         //Füge neues Score ein
         string[] wordlist = scorelist.Split();
         int length=wordlist.Length;
-        //Debug.Log(length);
+        Debug.Log(length);
         if (length % 2 != 0||length<2)
         {
             scorelist = score + " " + name;
@@ -123,7 +123,7 @@ public class PlayerScore : MonoBehaviour {
             {
                 int compare;
                 Int32.TryParse(wordlist[i], out compare);
-                //Debug.Log("Vergleich: " + score + " " + compare);
+                Debug.Log("Vergleich: " + score + " " + compare);
                 if (score > compare)
                 {
                     if (i > 18)
@@ -134,7 +134,7 @@ public class PlayerScore : MonoBehaviour {
                     }
                     wordlist[i] = score + " " + name + " " + wordlist[i];
                     changed = true;
-                    //Debug.Log(wordlist[i]);
+                    Debug.Log(wordlist[i]);
                     break;
                 }
             }
@@ -144,15 +144,19 @@ public class PlayerScore : MonoBehaviour {
             }
 
             scorelist = "";
-            for (int i = 0; i < length-2; i++)
+            for (int i = 0; i < length; i++)
             {
+                if (i > 18)
+                {
+                    break;
+                }
                 scorelist += wordlist[i];
                 if (i < length - 1)
                 {
                     scorelist += " ";
                 }
             }
-            //Debug.Log("Liste: " + scorelist);
+            Debug.Log("Liste: " + scorelist);
         }
         System.IO.File.WriteAllText(Application.dataPath + "//resources//scores.txt", scorelist);//Schreibe in txt
     }
