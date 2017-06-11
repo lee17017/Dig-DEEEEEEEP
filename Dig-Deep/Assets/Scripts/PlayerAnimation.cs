@@ -5,7 +5,8 @@ using UnityEngine;
 public class PlayerAnimation : MonoBehaviour {
     public float pSpeed;                                    //Geschwindigkeit des Spielers
     
-    public int distance;public GameObject winSprite, loseSprite;
+    public int distance;
+    public GameObject winSprite, loseSprite;
     public int playerNr;
     public GameObject act, next, darkEarth;
     private bool switching = false, switching2 = false;
@@ -89,38 +90,33 @@ public class PlayerAnimation : MonoBehaviour {
     {
 
         pSpeed = GameManager.current.baseSpeed + GetComponent<Player>().correctPerSecond * GameManager.current.speedEffect;
+        transform.Translate(Vector3.down * Time.deltaTime * pSpeed);
 
-        //What I need: Status LMR, switching
-        bool switching = false;
-        if (!switching)
+        if ((mod((int)transform.position.y, 32) <= 16 && !switching))
         {
-            if (true/*Input right*/)
-            {
-                if ((mod((int)transform.position.y, 32) <= 16 && !switching))
-                {
-                    switchNext();
-                }
+            switchNext();
+        }
 
-                if (mod((int)(transform.position.y), 32) <= 1)
-                {
-                    switchField();
-                }
+        if (mod((int)(transform.position.y), 32) <= 1)
+        {
+            switchField();
+        }
 
-                if (mod((int)(transform.position.y), 32) >= 31 && !switching2)
-                {
-                    switchField2();
-                }
+        if (mod((int)(transform.position.y), 32) >= 31 && !switching2)
+        {
+            switchField2();
+        }
 
-                if (switching && (mod((int)transform.position.y, 32) >= 26))
-                {
-                    switching = false;
-                }
 
-                if (switching2 && (mod((int)transform.position.y, 32) >= 20))
-                {
-                    switching2 = false;
-                }
-            }
+
+        if (switching && (mod((int)transform.position.y, 32) >= 26))
+        {
+            switching = false;
+        }
+
+        if (switching2 && (mod((int)transform.position.y, 32) >= 20))
+        {
+            switching2 = false;
         }
     }
 
