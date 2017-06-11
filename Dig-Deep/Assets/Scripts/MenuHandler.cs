@@ -31,13 +31,13 @@ public class MenuHandler : MonoBehaviour {
 
         //Debug.Log(done);
 
-        if (Input.GetKeyDown("joystick 1 button 0") && !p1Done && !done )
+        if (Input.GetKeyDown("joystick 1 button 0") && !p1Done && !done && player1EasterEgg != 7)
         {
             p1pressedA.Invoke();
             p1Done = !p1Done;
         }
 
-        if (Input.GetKeyDown("joystick 2 button 0") && !p2Done && !done)
+        if (Input.GetKeyDown("joystick 2 button 0") && !p2Done && !done && player2EasterEgg != 7)
         {
             p2pressedA.Invoke();
             p2Done = !p2Done;
@@ -61,7 +61,7 @@ public class MenuHandler : MonoBehaviour {
             done = true;
             StartCoroutine(nextLevel());
         }
-
+        
         //Easter Egg handlling
         switch (player1EasterEgg)
         {
