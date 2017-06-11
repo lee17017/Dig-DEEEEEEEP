@@ -23,9 +23,8 @@ public class Schild : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 
-        Debug.LogError(plyerRef.transform.position.y);
-        Debug.Log((int)(-(plyerRef.transform.position.y - 27)) % 25);
-        if(((int)(-1*(plyerRef.transform.position.y-27)))%25 == 0 && !move)
+        
+        if(((int)(-1*(plyerRef.transform.position.y-27)))%25 == 0)
         {
             move = true;
             int tiefe = (int) ((-(plyerRef.transform.position.y - 27)) / 25);
