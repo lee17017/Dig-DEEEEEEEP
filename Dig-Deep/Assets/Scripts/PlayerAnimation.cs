@@ -1,18 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerAnimation : MonoBehaviour {
-    public float pSpeed;
     public bool obstacle;
+    public bool cameraStop=false;
     
     public int distance;
     public GameObject winSprite, loseSprite;
     public int playerNr;
     public GameObject act, next, darkEarth;
     private bool switching = false, switching2 = false;
-
-    private float animSpeed = 2;
+    private float animSpeed = 4;
 
     [SerializeField]
     RuntimeAnimatorController drillAnim_default, drillAnim_special;
@@ -20,7 +20,7 @@ public class PlayerAnimation : MonoBehaviour {
     
     public IEnumerator EndAnimation()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
         //Move
         for (int i = 0; i < distance; i++)
         {
@@ -28,34 +28,44 @@ public class PlayerAnimation : MonoBehaviour {
             yield return new WaitForEndOfFrame();
         }
 
-        Vector3 pos = transform.position;
         //Rotate
         for (int i = 0; i < 30; i++)
         {
-            transform.Rotate(new Vector3(0, 0, 3));
+            transform.Rotate(new Vector3(0, 0, playerNr==1 ? -3:3));
             transform.Translate(Vector3.down * Time.deltaTime* animSpeed);
             yield return new WaitForEndOfFrame();
         }
+
         for (int i = 0; i < distance / 2; i++)
         {
             transform.Translate(Vector3.down * Time.deltaTime * animSpeed);
             yield return new WaitForEndOfFrame();
         }
+        GameObject temp;
         if ((playerNr == 1 && GameManager.current.winnerScore == GameManager.current.playerScore1) || (playerNr == 2 && GameManager.current.winnerScore == GameManager.current.playerScore2))
         {
-            GameObject temp = (GameObject)Instantiate(winSprite);
-            temp.transform.position = new Vector3(pos.x, this.transform.position.y-0.5f, 1);
+            temp = (GameObject)Instantiate(winSprite);
         }
         else
         {
-            GameObject temp = (GameObject)Instantiate(winSprite);
-            temp.transform.position = new Vector3(pos.x, this.transform.position.y - 0.5f, 1);
+            temp = (GameObject)Instantiate(loseSprite);
         }
-        for (int i = 0; i < distance; i++)
+            temp.transform.position = new Vector3(transform.position.x + (playerNr == 1 ? -2.2f : 2.2f), this.transform.position.y-0.5f, 0.5f);
+       
+
+        for (int i = 0; i < distance-5; i++)
         {
             transform.Translate(Vector3.down * Time.deltaTime * animSpeed);
             yield return new WaitForEndOfFrame();
         }
+        cameraStop = true;
+        for (int i = 0; i < distance * 3; i++)
+        {
+            transform.Translate(Vector3.down * Time.deltaTime * animSpeed);
+            yield return new WaitForEndOfFrame();
+        }
+        yield return new WaitForSeconds(3);
+        SceneManager.LoadScene(2);
     }
 	// Use this for initialization
 	void Start () {
