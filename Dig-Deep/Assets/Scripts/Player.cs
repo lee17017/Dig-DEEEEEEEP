@@ -35,6 +35,8 @@ public class Player : MonoBehaviour {
 
     public int correctClicked = 0;
     public int falseClicked = 0;
+
+    private bool endAnimStarted = false;
     //***
 
     // Use this for initialization
@@ -78,6 +80,12 @@ public class Player : MonoBehaviour {
                 Destroy(cur.gameObject);
             }
             currentActiveButtons.Clear();
+
+            if(!endAnimStarted)
+            {
+                StartCoroutine(GetComponentInParent<PlayerAnimation>().EndAnimation());
+                endAnimStarted = true;
+            }
         }
         
     }
@@ -343,4 +351,5 @@ public class Player : MonoBehaviour {
 
         
     }
+    
 }
