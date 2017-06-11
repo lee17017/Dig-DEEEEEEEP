@@ -47,6 +47,10 @@ public class GameManager : MonoBehaviour {
     public int baseSpeed;
     public float speedEffect;
 
+    // Obstacles
+    public int[] hitsNeeded;
+    public int[] buttonNeeded;
+
     void Awake()
     {
         current = this;
@@ -84,17 +88,6 @@ public class GameManager : MonoBehaviour {
             yield return new WaitForEndOfFrame();
         }
         run = false;
-
-        yield return new WaitForSeconds(5);
-
-        /*
-         run your you lose you win part here @Liou
-         
-         */
-
-        SceneManager.LoadScene(2);
-
-        
     }
 
 }

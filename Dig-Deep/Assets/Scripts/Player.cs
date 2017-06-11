@@ -8,8 +8,10 @@ public class Player : MonoBehaviour {
     
     // Player Selection
     public int player;
+
+    public LayerMask obstacles;
     
-    //*** Spin Input
+    // Spin Input
     public float horizontalRaw;
     public float verticalRaw;
     float angleRaw;
@@ -37,7 +39,8 @@ public class Player : MonoBehaviour {
     public int falseClicked = 0;
 
     private bool endAnimStarted = false;
-    //***
+
+    public bool obstacle;
 
     // Use this for initialization
     void Start ()
@@ -65,13 +68,16 @@ public class Player : MonoBehaviour {
     {
         if (GameManager.current.run)
         {
-            correctPerSecond = 0;
-            foreach(int click in correctButtonPresses)
+            if (!obstacle)
             {
-                correctPerSecond += click;
+                correctPerSecond = 0;
+                foreach (int click in correctButtonPresses)
+                {
+                    correctPerSecond += click;
+                }
+                ButtonMovement();
+                ButtonHandling();
             }
-            ButtonMovement();
-            ButtonHandling();
         }
         else
         {
@@ -351,5 +357,50 @@ public class Player : MonoBehaviour {
 
         
     }
-    
+
+    void OnTriggerEnter(Collider other)
+    {
+        StartCoroutine(Obstacle(other));
+    }
+
+    IEnumerator Obstacle(Collider other)
+    {
+        yield return null;
+
+        GetComponent<PlayerAnimation>().obstacle = true;
+        obstacle = true;
+
+        StunPlayer();
+
+        int hits = 0;
+
+        int type;
+
+        switch (other.tag)
+        {
+            case "Rock":
+                type = 0;
+                break;
+            case "Iron":
+                type = 1;
+                break;
+            default:
+                type = 0;
+                break;
+        }
+
+        while(hits < GameManager.current.hitsNeeded[type])
+        {
+            if (Input.GetKeyDown("joystick " + player + " button " + GameManager.current.buttonNeeded[type]))
+            {
+                hits++;
+            }
+            yield return null;
+        }
+
+        GetComponent<PlayerAnimation>().obstacle = false;
+        obstacle = false;
+
+        DestroyImmediate(other.gameObject);
+    }
 }

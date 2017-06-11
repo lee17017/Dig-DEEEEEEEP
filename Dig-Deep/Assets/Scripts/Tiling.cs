@@ -19,9 +19,7 @@ public class Tiling : MonoBehaviour {
 
     public void removeShit()
     {
-        Debug.Log(numb);
-        Debug.Log("A: " + height / 3 * 2);
-        Debug.Log(height);
+
         for (int x = 0; x < width; x++)
         {
                 sprite.texture.SetPixels32(x * tex.width, 0, tex.width, tex.height, tex.GetPixels32());
@@ -40,22 +38,24 @@ public class Tiling : MonoBehaviour {
 
         if (sprites.Length > 0)
         {
+            Debug.Log(numb);
             int anz = UnityEngine.Random.Range(1, 5);
             int[] xpos = new int[anz];
             int[] ypos = new int[anz];
-            Debug.Log("anz" + anz);
+
 
             for (int i = 0; i < anz; i++)
             {
                 bool ok = false;
+                int typ = UnityEngine.Random.Range(0, sprites.Length);
                 int x, y;
                 do
                 {
-                    x = (int)UnityEngine.Random.Range(0, width * tex.width - sprites[0].width);
-                    y = (int)UnityEngine.Random.Range(tex.height, height * tex.height - sprites[0].height);
+                    x = (int)UnityEngine.Random.Range(0, width * tex.width - sprites[typ].width);
+                    y = (int)UnityEngine.Random.Range(tex.height, height * tex.height - sprites[typ].height);
                     for (int j = 0; j < i; j++)
                     {
-                        if (x > xpos[j] - sprites[0].width && x < xpos[j] + sprites[0].width && y > ypos[j] - sprites[0].height && y < ypos[j] + sprites[0].height)
+                        if (x > xpos[j] - sprites[typ].width && x < xpos[j] + sprites[0].width && y > ypos[j] - sprites[0].height && y < ypos[j] + sprites[typ].height)
                         {
                             ok = true;
                             break;
@@ -66,9 +66,9 @@ public class Tiling : MonoBehaviour {
                         }
                     }
                 } while (ok);
-                Debug.Log(i + ": x" + x + "- y" + y);
+
                 xpos[i] = x; ypos[i] = y;
-                sprite.texture.SetPixels32(x, y, sprites[0].width, sprites[0].height, sprites[0].GetPixels32());
+                sprite.texture.SetPixels32(x, y, sprites[typ].width, sprites[typ].height, sprites[typ].GetPixels32());
 
 
             }
@@ -84,7 +84,6 @@ public class Tiling : MonoBehaviour {
 
         sprite = GetComponent<SpriteRenderer>().sprite;
         sprite.texture.Resize(width * tex.width, height * tex.height);
-        Debug.Log(width * tex.width);
         empty = new Color32[pWidth * pHeight];
         for (int i = 0; i < pWidth * pHeight; i++)
         {
