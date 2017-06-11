@@ -19,11 +19,11 @@ public class Tunnelbohralgorithmus : MonoBehaviour {
 	void Update () {
         if (GameManager.current.run&&!switching)
         {
-            if (Input.GetKeyDown("joystick "+spielerNr+" button 4"))
+            if (Input.GetKeyDown("joystick "+spielerNr+" button 4")||Input.GetKeyDown("joystick "+spielerNr+" button 9"))
             {
                 StartCoroutine(switchLane(-1));
             }
-            if (Input.GetKeyDown("joystick " + spielerNr + " button 5"))
+            if (Input.GetKeyDown("joystick " + spielerNr + " button 5") || Input.GetKeyDown("joystick " + spielerNr + " button 10"))
             {
                 StartCoroutine(switchLane(1));
             }
