@@ -47,6 +47,10 @@ public class GameManager : MonoBehaviour {
     public int baseSpeed;
     public float speedEffect;
 
+    // Obstacles
+    public int[] hitsNeeded;
+    public int[] buttonNeeded;
+
     void Awake()
     {
         current = this;

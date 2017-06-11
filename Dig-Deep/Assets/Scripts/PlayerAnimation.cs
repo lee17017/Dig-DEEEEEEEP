@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour {
     public float pSpeed;
+    public bool obstacle;
     
     public int distance;
     public GameObject winSprite, loseSprite;
@@ -90,7 +91,14 @@ public class PlayerAnimation : MonoBehaviour {
     void Update()
     {
 
-        pSpeed = GameManager.current.baseSpeed + GetComponent<Player>().correctPerSecond * GameManager.current.speedEffect;
+        if (!obstacle)
+        {
+            pSpeed = GameManager.current.baseSpeed + GetComponent<Player>().correctPerSecond * GameManager.current.speedEffect;
+        }
+        else
+        {
+            pSpeed = 0;
+        }
 
         transform.Translate(Vector3.down * Time.deltaTime * pSpeed);
 
