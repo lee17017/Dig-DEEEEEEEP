@@ -48,8 +48,8 @@ public class PlayerScore : MonoBehaviour {
         
 
 
-            p1score =(int) -(p1Drill.transform.position.y - 162);
-            p2score =(int) -(p2Drill.transform.position.y - 162);
+            p1score =(int) -(p1Drill.transform.position.y - 27);
+            p2score =(int) -(p2Drill.transform.position.y - 27);
 
         GameManager.current.playerScore1 = (int)p1score;
         GameManager.current.playerScore2 = (int)p2score;
