@@ -16,8 +16,11 @@ public class PlayerAnimation : MonoBehaviour {
     private bool switching = false, switching2 = false;
     private float animSpeed = 4;
 
+
     [SerializeField]
-    RuntimeAnimatorController drillAnim_default, drillAnim_special;
+    RuntimeAnimatorController[] drillAnims_normal;
+    [SerializeField]
+    RuntimeAnimatorController drillAnim_special;
 
     
     public IEnumerator EndAnimation()
@@ -102,7 +105,7 @@ public class PlayerAnimation : MonoBehaviour {
                 }
                 else
                 {
-                    GetComponentInChildren<Animator>().runtimeAnimatorController = drillAnim_default;
+                    GetComponentInChildren<Animator>().runtimeAnimatorController = drillAnims_normal[Random.Range(0, drillAnims_normal.Length)];
                 }
                 break;
             case 2:
@@ -112,7 +115,7 @@ public class PlayerAnimation : MonoBehaviour {
                 }
                 else
                 {
-                    GetComponentInChildren<Animator>().runtimeAnimatorController = drillAnim_default;
+                    GetComponentInChildren<Animator>().runtimeAnimatorController = drillAnims_normal[Random.Range(0, drillAnims_normal.Length)];
                 }
                 break;
         }

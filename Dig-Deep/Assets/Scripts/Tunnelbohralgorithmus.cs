@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class Tunnelbohralgorithmus : MonoBehaviour {
 
+
+    public float left, mid, right;
+
 	// Use this for initialization
 	void Start () {
-        
+        mid = transform.position.x;
+        left = transform.position.x - GameManager.current.laneDistance;
+        right = transform.position.x + GameManager.current.laneDistance;
 	}
     public int spielerNr;
-    int lane = 1;
+    public int lane = 1;
     bool switching = false;
 	void Update () {
         if (GameManager.current.run&&!switching)
@@ -67,11 +72,43 @@ public class Tunnelbohralgorithmus : MonoBehaviour {
             for (int i = 0; i < 10; i++)
             {
                 transform.Rotate(new Vector3(0, 0, direction < 0 ? -3 : 3));
+                while (GetComponent<Player>().obstacle)
+                {
+                    yield return new WaitForEndOfFrame();
+                }
                 yield return new WaitForEndOfFrame();
             }
-            yield return new WaitForSeconds(1);
+
+            float goal = mid;
+
+            switch (lane)
+            {
+                case 0:
+                    goal = left;
+                    break;
+                case 1:
+                    goal = mid;
+                    break;
+                case 2:
+                    goal = right;
+                    break;
+            }
+
+            while(!(transform.position.x < goal + 0.1f && transform.position.x > goal -0.1f))
+            {
+                while (GetComponent<Player>().obstacle)
+                {
+                    yield return new WaitForEndOfFrame();
+                }
+                yield return null;
+            }
+
             for (int i = 0; i < 10; i++)
             {
+                while (GetComponent<Player>().obstacle)
+                {
+                    yield return new WaitForEndOfFrame();
+                }
                 transform.Rotate(new Vector3(0, 0, direction < 0 ? 3 : -3));
                 yield return new WaitForEndOfFrame();
             }

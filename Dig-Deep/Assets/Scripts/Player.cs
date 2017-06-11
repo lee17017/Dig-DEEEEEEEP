@@ -361,7 +361,8 @@ public class Player : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        StartCoroutine(Obstacle(other));
+            if(GameManager.current.run)
+                StartCoroutine(Obstacle(other));
     }
 
     IEnumerator Obstacle(Collider other)
