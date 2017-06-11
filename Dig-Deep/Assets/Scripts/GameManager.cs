@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour {
 
     //Spawn and speed controls
     public float secondsSmoothed;
+    public float clickSecondsSmoothed;
     public float powerSpins;
     public float travelspeedBase;
     public float distance;
@@ -39,7 +40,13 @@ public class GameManager : MonoBehaviour {
 
     //Anzahl erlaubter Fehler bevor man gestunned wird
     public int FehlerAnzahl;
-    
+
+    public float speedFeedback;
+    public int speedFeedbackResponseTime;
+
+    public int baseSpeed;
+    public float speedEffect;
+
     void Awake()
     {
         current = this;
