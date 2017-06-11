@@ -6,7 +6,7 @@ public class CamBehaviour : MonoBehaviour {
     public GameObject playerObject;
     public Player player;
     private Vector3 offset;
-
+    
     public float speedOffset;
     public float xStart;
 
@@ -20,6 +20,12 @@ public class CamBehaviour : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        if (player.GetComponent<PlayerAnimation>().cameraCenter)
+        {
+
+            offset = new Vector3(offset.x*20/21,offset.y*20/21, offset.z);
+            
+        }
         if (!playerObject.GetComponent<PlayerAnimation>().cameraStop)
         {
             speedOffset = Mathf.Lerp(speedOffset, player.correctPerSecond * GameManager.current.speedFeedback, GameManager.current.speedFeedbackResponseTime / 100f);
