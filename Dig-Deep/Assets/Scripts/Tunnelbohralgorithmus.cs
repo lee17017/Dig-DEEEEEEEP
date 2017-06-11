@@ -12,13 +12,13 @@ public class Tunnelbohralgorithmus : MonoBehaviour {
     int lane = 1;
     bool switching = false;
 	void Update () {
-        if (GameManager.current.run)
+        if (GameManager.current.run&&!switching)
         {
-            if (Input.GetKeyDown("joystick "+spielerNr+" button 5"))
+            if (Input.GetKeyDown("joystick "+spielerNr+" button 4"))
             {
                 StartCoroutine(switchLane(-1));
             }
-            if (Input.GetKeyDown("joystick " + spielerNr + " button 4"))
+            if (Input.GetKeyDown("joystick " + spielerNr + " button 5"))
             {
                 StartCoroutine(switchLane(1));
             }
