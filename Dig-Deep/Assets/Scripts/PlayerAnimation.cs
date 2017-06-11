@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class PlayerAnimation : MonoBehaviour {
     public float pSpeed;
     public bool obstacle;
-    public bool cameraStop=false;
+    public bool cameraStop = false, cameraCenter = false;
     
     public int distance;
     public GameObject textPref;
@@ -25,6 +25,7 @@ public class PlayerAnimation : MonoBehaviour {
     
     public IEnumerator EndAnimation()
     {
+        cameraCenter = true;
         yield return new WaitForSeconds(1);
         //Move
         for (int i = 0; i < distance; i++)
@@ -65,19 +66,15 @@ public class PlayerAnimation : MonoBehaviour {
         }
         cameraStop = true;
         float x = transform.position.x;
-        for (int i = 0; i < distance * 2.5f; i++)
+
+        for (int i = 0; i < distance * 2f; i++)
         {
             transform.Translate(Vector3.down * Time.deltaTime * animSpeed);
             yield return new WaitForEndOfFrame();
         }
 
-        //Rotate
-        for (int i = 0; i < 90; i++)
-        {
-            transform.Rotate(new Vector3(0, 0, playerNr == 1 ? 2 : -2));
-            transform.Translate(Vector3.down * Time.deltaTime * animSpeed);
-            yield return new WaitForEndOfFrame();
-        }
+        transform.position = new Vector3(transform.position.x, transform.position.y - 3);
+        transform.Rotate(new Vector3(0, 0, 180));
 
         temp = Instantiate(textPref);
         temp.GetComponent<TextMesh>().text = "" + (playerNr== 1 ? GameManager.current.playerScore1 : GameManager.current.playerScore2)+"m";
