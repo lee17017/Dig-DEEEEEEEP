@@ -12,14 +12,19 @@ public class Spawner : MonoBehaviour {
     // Use this for initialization
     private float spawnTimeCur;
 
+    private float xStart;
+
     public float spawnTime;
 
     private void Start()
     {
         spawnTimeCur = spawnTime;
+        xStart = transform.position.x;
     }
     // Update is called once per frame
     void Update () {
+        transform.position = new Vector3(xStart, transform.position.y, transform.position.z);
+
         if (spawnTimeCur < 0)
         {
             spawnTimeCur = Rn(1, 4);

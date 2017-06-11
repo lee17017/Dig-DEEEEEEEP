@@ -8,9 +8,11 @@ public class CamBehaviour : MonoBehaviour {
     private Vector3 offset;
 
     public float speedOffset;
+    public float xStart;
 
     void Start()
     {
+        xStart = transform.position.x;
         offset = transform.position - playerObject.transform.position;
         player = playerObject.GetComponent<Player>();
     }
@@ -22,6 +24,11 @@ public class CamBehaviour : MonoBehaviour {
         {
             speedOffset = Mathf.Lerp(speedOffset, player.correctPerSecond * GameManager.current.speedFeedback, GameManager.current.speedFeedbackResponseTime / 100f);
             transform.position = playerObject.transform.position + offset + Vector3.up * speedOffset;
+
+            if (GameManager.current.run)
+            {
+                transform.position = new Vector3(xStart, transform.position.y, transform.position.z);
+            }
         }
     }
 }
