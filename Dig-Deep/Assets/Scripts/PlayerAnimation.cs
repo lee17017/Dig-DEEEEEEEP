@@ -25,6 +25,8 @@ public class PlayerAnimation : MonoBehaviour {
     
     public IEnumerator EndAnimation()
     {
+       // yield return new WaitForSeconds(5);
+
         cameraCenter = true;
         yield return new WaitForSeconds(1);
         //Move
