@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PlayerAnimation : MonoBehaviour {
+    public float pSpeed;
     public bool obstacle;
     public bool cameraStop=false;
     
@@ -100,17 +101,24 @@ public class PlayerAnimation : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-
-        if (!obstacle)
+        if (GameManager.current.run)
         {
-            pSpeed = GameManager.current.baseSpeed + GetComponent<Player>().correctPerSecond * GameManager.current.speedEffect;
+            if (!obstacle)
+            {
+                pSpeed = GameManager.current.baseSpeed + GetComponent<Player>().correctPerSecond * GameManager.current.speedEffect;
+            }
+            else
+            {
+                pSpeed = 0;
+            }
+
+        transform.Translate(Vector3.down * Time.deltaTime * pSpeed);
+
         }
         else
         {
-            pSpeed = 0;
+            pSpeed = GameManager.current.baseSpeed;
         }
-
-        transform.Translate(Vector3.down * Time.deltaTime * pSpeed);
 
         if ((mod((int)transform.position.y, 32) <= 16 && !switching))
         {

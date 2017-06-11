@@ -19,7 +19,7 @@ public class Spawner : MonoBehaviour {
     void Update () {
         if (spawnTimeCur < 0)
         {
-            spawnTimeCur = Rn(4, 7);
+            spawnTimeCur = Rn(1, 4);
             StartCoroutine(spawnObject(Rn(spawner.Length-1), Rn(obstacles.Length - 1)));
         }
 
