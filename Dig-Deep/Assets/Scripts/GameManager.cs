@@ -84,17 +84,6 @@ public class GameManager : MonoBehaviour {
             yield return new WaitForEndOfFrame();
         }
         run = false;
-
-        yield return new WaitForSeconds(5);
-
-        /*
-         run your you lose you win part here @Liou
-         
-         */
-
-        SceneManager.LoadScene(2);
-
-        
     }
 
 }

@@ -19,9 +19,7 @@ public class Tiling : MonoBehaviour {
 
     public void removeShit()
     {
-        Debug.Log(numb);
-        Debug.Log("A: " + height / 3 * 2);
-        Debug.Log(height);
+
         for (int x = 0; x < width; x++)
         {
                 sprite.texture.SetPixels32(x * tex.width, 0, tex.width, tex.height, tex.GetPixels32());
@@ -43,7 +41,7 @@ public class Tiling : MonoBehaviour {
             int anz = UnityEngine.Random.Range(1, 5);
             int[] xpos = new int[anz];
             int[] ypos = new int[anz];
-            Debug.Log("anz" + anz);
+
 
             for (int i = 0; i < anz; i++)
             {
@@ -66,7 +64,7 @@ public class Tiling : MonoBehaviour {
                         }
                     }
                 } while (ok);
-                Debug.Log(i + ": x" + x + "- y" + y);
+
                 xpos[i] = x; ypos[i] = y;
                 sprite.texture.SetPixels32(x, y, sprites[0].width, sprites[0].height, sprites[0].GetPixels32());
 
@@ -84,7 +82,6 @@ public class Tiling : MonoBehaviour {
 
         sprite = GetComponent<SpriteRenderer>().sprite;
         sprite.texture.Resize(width * tex.width, height * tex.height);
-        Debug.Log(width * tex.width);
         empty = new Color32[pWidth * pHeight];
         for (int i = 0; i < pWidth * pHeight; i++)
         {
