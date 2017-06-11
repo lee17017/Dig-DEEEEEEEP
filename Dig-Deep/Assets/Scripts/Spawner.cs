@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour {
 
+    public int player;
+
     public GameObject[] spawner;
     public GameObject[] obstacles;
+    public GameObject warningMiddle, warningLeft, warningRight;
     // Use this for initialization
     private float spawnTimeCur;
 
@@ -38,8 +41,33 @@ public class Spawner : MonoBehaviour {
 
     IEnumerator spawnObject(int spawn, int obst)
     {
+        StartCoroutine(warning(spawn));
         GameObject obstacle = Instantiate(obstacles[obst]);
         obstacle.transform.position = spawner[spawn].transform.position;
         yield return null;
+    }
+
+    IEnumerator warning(int spawn)
+    {
+        GameObject warningObj = null;
+
+        switch (spawn)
+        {
+            case 0:
+                warningObj = warningLeft;
+                break;
+            case 1:
+                warningObj = warningMiddle;
+                break;
+            case 2:
+                warningObj = warningRight;
+                break;
+        }
+
+        warningObj.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+
+        yield return new WaitForSeconds(1);
+        
+        warningObj.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
     }
 }

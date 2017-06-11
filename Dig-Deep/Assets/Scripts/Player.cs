@@ -41,6 +41,7 @@ public class Player : MonoBehaviour {
     private bool endAnimStarted = false;
 
     public bool obstacle;
+    public GameObject mashButton;
 
     // Use this for initialization
     void Start ()
@@ -370,6 +371,9 @@ public class Player : MonoBehaviour {
         GetComponent<PlayerAnimation>().obstacle = true;
         obstacle = true;
 
+        GameObject mash = Instantiate(mashButton, transform.position + Vector3.down*8, Quaternion.identity);
+        mash.GetComponent<MashButton>().player = player;
+
         StunPlayer();
 
         int hits = 0;
@@ -402,5 +406,6 @@ public class Player : MonoBehaviour {
         obstacle = false;
 
         DestroyImmediate(other.gameObject);
+        DestroyImmediate(mash);
     }
 }
