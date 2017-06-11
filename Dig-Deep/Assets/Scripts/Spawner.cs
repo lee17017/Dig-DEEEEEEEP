@@ -54,10 +54,10 @@ public class Spawner : MonoBehaviour {
         switch (spawn)
         {
             case 0:
-                warningObj = warningLeft;
+                warningObj = warningMiddle;
                 break;
             case 1:
-                warningObj = warningMiddle;
+                warningObj = warningLeft;
                 break;
             case 2:
                 warningObj = warningRight;
