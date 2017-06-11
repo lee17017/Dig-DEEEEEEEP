@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour {
-    public float pSpeed;
+    public float pSpeed;                                    //Geschwindigkeit des Spielers
     
-    public int distance;
-    public bool win;
-    public GameObject winSprite, loseSprite;
-    public int playerNr;
-    public GameObject act, next, darkEarth;
-    private bool switching = false, switching2 = false;
+    public int distance;                                    //WTF does this?
+    public bool win;                                        //Is this Player winning?
+    public GameObject winSprite, loseSprite;                //Ergebnisanzeigen
+    public int playerNr;                                    //ID des Spielers
+    public GameObject act, next, darkEarth;                 //Bodenplatten auf der Spielerseite
+    private bool switching = false, switching2 = false;     //Don't know what, don't know how...
 
     [SerializeField]
     RuntimeAnimatorController drillAnim_default, drillAnim_special;
@@ -98,7 +98,20 @@ public class PlayerAnimation : MonoBehaviour {
 
         pSpeed = GameManager.current.baseSpeed + GetComponent<Player>().correctPerSecond * GameManager.current.speedEffect;
 
-        transform.Translate(Vector3.down * Time.deltaTime * pSpeed);
+        //What I need: Status LMR, switching
+        bool switching = false;
+        if (!switching)
+        {
+            if (true/*Input right*/) { 
+
+            }
+            if (true/*Input left*/)
+            {
+
+            }
+        }
+        
+        transform.Translate(Vector3.down * Time.deltaTime * pSpeed);//Bewegung nach unten
 
         if ((mod((int)transform.position.y, 32) <= 23 && !switching))
         {
