@@ -5,7 +5,9 @@ using UnityEngine;
 public class Schild : MonoBehaviour {
 
 
-    public GameOb
+    public GameObject schild;
+
+    public GameObject[] start_end;
 	// Use this for initialization
 	void Start () {
 		
@@ -15,4 +17,14 @@ public class Schild : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    void swap_start_end()
+    {
+        GameObject cache = start_end[0];
+    }
+
+    IEnumerator inAndOut()
+    {
+        yield return null;
+    }
 }
