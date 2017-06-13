@@ -151,7 +151,7 @@ public class MenuHandler : MonoBehaviour {
         yield return new WaitForSeconds(2);
         transition.Invoke();
 
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(8);
         SceneManager.LoadScene(1);
     }
 
