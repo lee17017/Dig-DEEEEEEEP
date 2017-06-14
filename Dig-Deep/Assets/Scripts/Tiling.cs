@@ -87,7 +87,6 @@ public class Tiling : MonoBehaviour {
         fieldWidth = width * tex.width;
         fieldHeight = height * tex.height;
         sprite = GetComponent<SpriteRenderer>().sprite;
-        sprite.texture.Resize(fieldWidth, fieldHeight);
         empty = new Color32[pWidth * pHeight];
         for (int i = 0; i < pWidth * pHeight; i++)
         {
