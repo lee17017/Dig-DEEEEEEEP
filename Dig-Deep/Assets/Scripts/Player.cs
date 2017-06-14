@@ -37,6 +37,7 @@ public class Player : MonoBehaviour {
 
     public int correctClicked = 0;
     public int falseClicked = 0;
+    private bool clicked = false;
 
     private bool endAnimStarted = false;
 
@@ -158,22 +159,38 @@ public class Player : MonoBehaviour {
         int currentButton = -1;
         int currentInput = -1;
 
-        //Inout abfragen
-        if (Input.GetKeyDown("joystick " + player + " button 0"))
+        //Input abfragen
+        if (!clicked)
         {
-            currentInput = 0;
+            clicked = true;
+            if (Input.GetKeyDown("joystick " + player + " button 0") || Input.GetAxis("Vertical") < 0)
+            {
+                currentInput = 0;
+            }
+            else if (Input.GetKeyDown("joystick " + player + " button 1") || Input.GetAxis("Horizontal") > 0)
+            {
+                currentInput = 1;
+            }
+            else if (Input.GetKeyDown("joystick " + player + " button 2") || Input.GetAxis("Horizontal") < 0)
+            {
+                currentInput = 2;
+            }
+            else if (Input.GetKeyDown("joystick " + player + " button 3") || Input.GetAxis("Vertical") > 0)
+            {
+                currentInput = 3;
+            }
+            else
+            {
+                clicked = false;
+            }
         }
-        else if (Input.GetKeyDown("joystick " + player + " button 1"))
+        else
         {
-            currentInput = 1;
-        }
-        else if (Input.GetKeyDown("joystick " + player + " button 2"))
-        {
-            currentInput = 2;
-        }
-        else if (Input.GetKeyDown("joystick " + player + " button 3"))
-        {
-            currentInput = 3;
+            //Might cause problems :/ But i'll give it a try
+            if (Input.GetAxis("Vertical") < 0.0001f && Input.GetAxis("Vertical") > -0.0001f && Input.GetAxis("Horizontal") < 0.0001f && Input.GetAxis("Horizontal") > -0.0001f)
+            {
+                clicked = false;
+            }
         }
 
         currentButton = -1;
@@ -196,9 +213,13 @@ public class Player : MonoBehaviour {
             {
                 currentButton = 3;
             }
-
+            if (currentInput >= 0)
+            {
+                Debug.Log(currentInput + " " + currentButton);
+            }
             if (currentInput == currentButton)
             {
+                Debug.Log("Richtig!");
                 //Handle correct pressed button logic
                 correctClicked++;
                 correctButtonPresses.Enqueue(1);
