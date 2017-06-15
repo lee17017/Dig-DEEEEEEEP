@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour {
     public float gameDuration;
     public float totalDuration;
     public bool run = true;
+    public bool tastatur = false;//Für Tastatursteuerung
 
     public float clockPercentage;
 
@@ -94,5 +95,10 @@ public class GameManager : MonoBehaviour {
         }
         run = false;
     }
-
+    
+    //Für Tastatursteuerung
+    public void setKBActive()
+    {
+        tastatur = !tastatur;
+    }
 }

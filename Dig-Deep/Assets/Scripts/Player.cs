@@ -37,7 +37,7 @@ public class Player : MonoBehaviour {
 
     public int correctClicked = 0;
     public int falseClicked = 0;
-    private bool clicked = false;
+    private bool clicked = false;                   //Für Tastatursteuerung
 
     private bool endAnimStarted = false;
 
@@ -213,13 +213,9 @@ public class Player : MonoBehaviour {
             {
                 currentButton = 3;
             }
-            if (currentInput >= 0)
-            {
-                Debug.Log(currentInput + " " + currentButton);
-            }
+
             if (currentInput == currentButton)
             {
-                Debug.Log("Richtig!");
                 //Handle correct pressed button logic
                 correctClicked++;
                 correctButtonPresses.Enqueue(1);
@@ -254,8 +250,16 @@ public class Player : MonoBehaviour {
     public void SpinInput()
     {
         // Actual Input
-        horizontalRaw = Input.GetAxis("Horizontal " + player);
-        verticalRaw = Input.GetAxis("Vertical " + player);
+        if (GameManager.current.tastatur)
+        {
+            horizontalRaw = Input.GetAxis("Mouse X");
+            verticalRaw = Input.GetAxis("Mouse Y");
+        }
+        else
+        {
+            horizontalRaw = Input.GetAxis("Horizontal " + player);
+            verticalRaw = Input.GetAxis("Vertical " + player);
+        }
         angleRaw = Mathf.Atan2(verticalRaw, horizontalRaw) * 180 / Mathf.PI;
 
         // Only Calculate if Stick is actually being moved
@@ -419,7 +423,7 @@ public class Player : MonoBehaviour {
 
         while(hits < GameManager.current.hitsNeeded[type])
         {
-            if (Input.GetKeyDown("joystick " + player + " button " + GameManager.current.buttonNeeded[type]))
+            if (Input.GetKeyDown("joystick " + player + " button " + GameManager.current.buttonNeeded[type])||Input.GetAxis("Horizontal")<0)//Noch unschön mit Tastaturinput, aber fürs erste passts
             {
                 hits++;
             }
