@@ -16,6 +16,10 @@ public class MashButton : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!GameManager.current.run)
+        {
+            Destroy(this.gameObject);
+        }
         if (Input.GetKey("joystick " + player + " button 0"))
         {
             GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
