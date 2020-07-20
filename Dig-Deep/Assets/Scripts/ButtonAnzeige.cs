@@ -1,48 +1,43 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
-using UnityEngine.EventSystems;
 
-public class ButtonAnzeige : MonoBehaviour {
+public class ButtonAnzeige : MonoBehaviour {//TODO remove this class (integrated into player)
     
-    enum buttons {orange, blue, red, green };
+    /*enum buttons {orange, blue, red, green };
 
     [SerializeField]
-    Canvas canvas;
+    private Canvas canvas;
 
     [SerializeField]
-    Image defaultImage;
+    private Image defaultImage;
 
     [SerializeField]
-    Sprite[] ButtonSprites;
+    private Sprite[] ButtonSprites;
 
     [SerializeField]
-    float spawnInterval;
+    private float spawnInterval;
 
     [SerializeField]
-    float travelspeed;
+    private float travelspeed;
 
     private float timeSinceLastSpawn = 0;
 
     private List<Image> currentActiveButtons;
     private List<Image> clickedButtons;//have already been clicked, will only be moved out and destroyed
-
-    public int correctClicked = 0;
-    public int falseClicked = 0;
-
-    // Use this for initialization
+    
+    private int correctClicked = 0;
+    private int falseClicked = 0;
+    
     void Start()
     {
         currentActiveButtons = new List<Image>();
         clickedButtons = new List<Image>();
     }
 	
-	// Update is called once per frame
 	void Update ()
     {
-
+        Debug.Log(gameObject.name);
         //Button Spawning
         timeSinceLastSpawn += Time.deltaTime;
 
@@ -50,7 +45,7 @@ public class ButtonAnzeige : MonoBehaviour {
         {
             timeSinceLastSpawn = 0;
 
-            Image newButton = Image.Instantiate(defaultImage);
+            Image newButton = Instantiate(defaultImage);
             newButton.transform.SetParent(canvas.transform, false);
             newButton.transform.SetAsFirstSibling();
             newButton.sprite = ButtonSprites[Random.Range(0, ButtonSprites.Length)];
@@ -83,11 +78,9 @@ public class ButtonAnzeige : MonoBehaviour {
         //Get current Button to press
         int currentButton = -1;
         int currentInput = -1;
-        
 
         foreach (Image button in currentActiveButtons)
         {
-
             if(button.transform.position.x > 75 && button.transform.position.x < 125)
             {
                 //Button befindet sich über dem Strich
@@ -127,6 +120,5 @@ public class ButtonAnzeige : MonoBehaviour {
         {
             falseClicked++;
         }
-
-    }
+    }*/
 }

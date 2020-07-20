@@ -1,23 +1,27 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class CamBehaviour : MonoBehaviour {
-
-    public GameObject playerObject;
-    public Player player;
+public class CamBehaviour : MonoBehaviour
+{
+    #region Variables
+    [SerializeField]
+    private GameObject playerObject = null;
+    [SerializeField]
+    private Player player = null;
     private Vector3 offset;
-    
-    public float speedOffset;
-    public float xStart;
-    
+
+    [SerializeField]
+    private float speedOffset = 0;
+    [SerializeField]
+    private float xStart = 0;
+    #endregion
+
     void Start()
     {
         xStart = transform.position.x;
         offset = transform.position - playerObject.transform.position;
         player = playerObject.GetComponent<Player>();
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         /*if (player.GetComponent<PlayerAnimation>().cameraCenter)
@@ -34,7 +38,7 @@ public class CamBehaviour : MonoBehaviour {
                 speedOffset = Mathf.Lerp(speedOffset, player.correctPerSecond * GameManager.current.speedFeedback, GameManager.current.speedFeedbackResponseTime / 100f);
             else
                 speedOffset = 0;
-            
+
             transform.position = playerObject.transform.position + offset + Vector3.up * speedOffset;
 
             if (GameManager.current.run)

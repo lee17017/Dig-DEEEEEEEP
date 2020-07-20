@@ -1,19 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class ObstacleScript : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		if(!GameManager.current.run)
+public class ObstacleScript : MonoBehaviour
+{
+    void Update()
+    {
+        if (!GameManager.current.run)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
-	}
+    }
 }

@@ -17,35 +17,23 @@ Platform assembly: D:\Eigene Dateien\Dokumente\Info\_Unity\Dig-DEEEEEEEP\Version
 Loading D:\Eigene Dateien\Dokumente\Info\_Unity\Dig-DEEEEEEEP\VersionMT1.1.3sp_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
 Platform assembly: D:\Eigene Dateien\Dokumente\Info\_Unity\Dig-DEEEEEEEP\VersionMT1.1.3sp_Data\Managed\XInputDotNetPure.dll (this message is harmless)
 Loading D:\Eigene Dateien\Dokumente\Info\_Unity\Dig-DEEEEEEEP\VersionMT1.1.3sp_Data\Managed\XInputDotNetPure.dll into Unity Child Domain
-- Completed reload, in  0.050 seconds
+- Completed reload, in  0.331 seconds
 Platform assembly: D:\Eigene Dateien\Dokumente\Info\_Unity\Dig-DEEEEEEEP\VersionMT1.1.3sp_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: D:\Eigene Dateien\Dokumente\Info\_Unity\Dig-DEEEEEEEP\VersionMT1.1.3sp_Data\Managed\System.dll (this message is harmless)
 desktop: 1600x900 60Hz; virtual: 1600x900 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
-UnloadTime: 4.201936 ms
+UnloadTime: 2.365490 ms
 The referenced script on this Behaviour (Game Object 'Obstacle') is missing!
  
 (Filename:  Line: 1743)
 
 Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 15.030169 ms
+UnloadTime: 8.227260 ms
 
 Unloading 43 unused Assets to reduce memory usage. Loaded Objects now: 546.
-Total: 1.320044 ms (FindLiveObjects: 0.054129 ms CreateObjectMapping: 0.034769 ms MarkObjects: 0.473730 ms  DeleteObjects: 0.756230 ms)
-
-The referenced script on this Behaviour (Game Object '<null>') is missing!
- 
-(Filename:  Line: 1743)
-
-The referenced script on this Behaviour (Game Object 'Obstacle') is missing!
- 
-(Filename:  Line: 1743)
-
-The referenced script on this Behaviour (Game Object 'Obstacle') is missing!
- 
-(Filename:  Line: 1743)
+Total: 0.911506 ms (FindLiveObjects: 0.100751 ms CreateObjectMapping: 0.027657 ms MarkObjects: 0.301069 ms  DeleteObjects: 0.480842 ms)
 
 The referenced script on this Behaviour (Game Object '<null>') is missing!
  
@@ -492,17 +480,17 @@ The referenced script on this Behaviour (Game Object 'Obstacle') is missing!
 (Filename:  Line: 1743)
 
 Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 1.408942 ms
+UnloadTime: 0.868044 ms
 
 Unloading 105 unused Assets to reduce memory usage. Loaded Objects now: 308.
-Total: 1.817480 ms (FindLiveObjects: 0.049388 ms CreateObjectMapping: 0.043461 ms MarkObjects: 0.331492 ms  DeleteObjects: 1.392348 ms)
+Total: 0.847499 ms (FindLiveObjects: 0.032398 ms CreateObjectMapping: 0.043461 ms MarkObjects: 0.171080 ms  DeleteObjects: 0.599768 ms)
 
 Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 0.661009 ms
+UnloadTime: 0.369422 ms
 
 Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 308.
-Total: 0.501782 ms (FindLiveObjects: 0.051363 ms CreateObjectMapping: 0.034769 ms MarkObjects: 0.402216 ms  DeleteObjects: 0.012643 ms)
+Total: 0.241803 ms (FindLiveObjects: 0.030818 ms CreateObjectMapping: 0.037930 ms MarkObjects: 0.169104 ms  DeleteObjects: 0.003555 ms)
 
 Setting up 2 worker threads for Enlighten.
-  Thread -> id: 1e70 -> priority: 1 
-  Thread -> id: 1ea4 -> priority: 1 
+  Thread -> id: 264c -> priority: 1 
+  Thread -> id: 22a8 -> priority: 1 

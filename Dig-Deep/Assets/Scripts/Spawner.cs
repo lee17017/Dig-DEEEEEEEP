@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour {
@@ -9,7 +8,7 @@ public class Spawner : MonoBehaviour {
     public GameObject[] spawner;
     public GameObject[] obstacles;
     public GameObject warningMiddle, warningLeft, warningRight;
-    // Use this for initialization
+    
     private float spawnTimeCur;
 
     private float xStart;
@@ -21,7 +20,7 @@ public class Spawner : MonoBehaviour {
         spawnTimeCur = spawnTime;
         xStart = transform.position.x;
     }
-    // Update is called once per frame
+    
     void Update () {
         if (!transform.parent.GetComponent<Player>().obstacle && GameManager.current.run)
         {

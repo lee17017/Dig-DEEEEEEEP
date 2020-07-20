@@ -66,14 +66,10 @@ public class GameManager : MonoBehaviour {
             sequence.Add(Random.Range(0, 4));
         }
 
-        GameObject.DontDestroyOnLoad(this);
+        DontDestroyOnLoad(this);
         gameDuration = totalDuration;
         StartCoroutine(gameTime());
     }
-
-    // Use this for initialization
-    void Start () {
-	}
 
     private void Update()
     {

@@ -4,13 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using XInputDotNetPure;
 
-public class Player : MonoBehaviour {
-    
+public class Player : MonoBehaviour
+{
     // Player Selection
     public int player;
 
     public LayerMask obstacles;
-    
+
     // Spin Input
     public float horizontalRaw;
     public float verticalRaw;
@@ -25,7 +25,7 @@ public class Player : MonoBehaviour {
 
     public float correctPerSecond;
     public Queue<int> correctButtonPresses;
-    
+
     [SerializeField]
     Image defaultImage;
 
@@ -37,36 +37,33 @@ public class Player : MonoBehaviour {
 
     public int correctClicked = 0;
     public int falseClicked = 0;
-    private bool clicked = false;                   //Für Tastatursteuerung
+    private bool clicked = false;//Used for keyboard controll
 
     private bool endAnimStarted = false;
 
     public bool obstacle;
     public GameObject mashButton;
 
-    // Use this for initialization
-    void Start ()
+    void Start()
     {
         currentActiveButtons = new List<Image>();
 
         spinSpeedSaves = new Queue<int>();
         correctButtonPresses = new Queue<int>();
 
-        for(int i=0; i< GameManager.current.secondsSmoothed *60; i++)
+        for (int i = 0; i < GameManager.current.secondsSmoothed * 60; i++)
         {
             spinSpeedSaves.Enqueue(0);
 
         }
-        for(int i=0; i<GameManager.current.clickSecondsSmoothed*60; i++)
+        for (int i = 0; i < GameManager.current.clickSecondsSmoothed * 60; i++)
         {
             correctButtonPresses.Enqueue(0);
         }
-
         //StartCoroutine(findControllerIndex());
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    void Update()
     {
         if (GameManager.current.run)
         {
@@ -83,19 +80,18 @@ public class Player : MonoBehaviour {
         }
         else
         {
-            foreach(Image cur in currentActiveButtons)
+            foreach (Image cur in currentActiveButtons)
             {
                 Destroy(cur.gameObject);
             }
             currentActiveButtons.Clear();
 
-            if(!endAnimStarted)
+            if (!endAnimStarted)
             {
                 StartCoroutine(GetComponentInParent<PlayerAnimation>().EndAnimation());
                 endAnimStarted = true;
             }
         }
-        
     }
 
     void FixedUpdate()
@@ -126,7 +122,7 @@ public class Player : MonoBehaviour {
             //newButton.sprite = GameManager.current.ButtonSprites[Random.Range(0, GameManager.current.ButtonSprites.Length)];
             newButton.sprite = GameManager.current.ButtonSprites[GameManager.current.sequence[sequencePos]];
             sequencePos++;
-            newButton.color = new Color(1,1,1,1);
+            newButton.color = new Color(1, 1, 1, 1);
             currentActiveButtons.Add(newButton);
         }
 
@@ -143,7 +139,7 @@ public class Player : MonoBehaviour {
             Destroy(currentActiveButtons[0].gameObject);
             currentActiveButtons.RemoveAt(0);
 
-            if(falseClicked % GameManager.current.FehlerAnzahl == 0)
+            if (falseClicked % GameManager.current.FehlerAnzahl == 0)
             {
                 StunPlayer();
             }
@@ -153,44 +149,27 @@ public class Player : MonoBehaviour {
     //Handles Button Presses and Detection
     public void ButtonHandling()
     {
-
         //Button Press Handling
         //Get current Button to press
         int currentButton = -1;
         int currentInput = -1;
 
         //Input abfragen
-        if (!clicked)
+        if (Input.GetKeyDown("joystick " + player + " button 0") || (GameManager.current.tastatur && Input.GetButtonDown("s")))
         {
-            clicked = true;
-            if (Input.GetKeyDown("joystick " + player + " button 0") || Input.GetAxis("Vertical") < 0)
-            {
-                currentInput = 0;
-            }
-            else if (Input.GetKeyDown("joystick " + player + " button 1") || Input.GetAxis("Horizontal") > 0)
-            {
-                currentInput = 1;
-            }
-            else if (Input.GetKeyDown("joystick " + player + " button 2") || Input.GetAxis("Horizontal") < 0)
-            {
-                currentInput = 2;
-            }
-            else if (Input.GetKeyDown("joystick " + player + " button 3") || Input.GetAxis("Vertical") > 0)
-            {
-                currentInput = 3;
-            }
-            else
-            {
-                clicked = false;
-            }
+            currentInput = 0;
         }
-        else
+        else if (Input.GetKeyDown("joystick " + player + " button 1") || (GameManager.current.tastatur && Input.GetButtonDown("d")))
         {
-            //Might cause problems :/ But i'll give it a try
-            if (Input.GetAxis("Vertical") < 0.0001f && Input.GetAxis("Vertical") > -0.0001f && Input.GetAxis("Horizontal") < 0.0001f && Input.GetAxis("Horizontal") > -0.0001f)
-            {
-                clicked = false;
-            }
+            currentInput = 1;
+        }
+        else if (Input.GetKeyDown("joystick " + player + " button 2") || (GameManager.current.tastatur && Input.GetButtonDown("a")))
+        {
+            currentInput = 2;
+        }
+        else if (Input.GetKeyDown("joystick " + player + " button 3") || (GameManager.current.tastatur && Input.GetButtonDown("w")))
+        {
+            currentInput = 3;
         }
 
         currentButton = -1;
@@ -233,13 +212,12 @@ public class Player : MonoBehaviour {
             }
         }
 
-
         //Detect false button presses
         if (currentInput >= 0 && currentInput != currentButton)
         {
             falseClicked++;
 
-            if(falseClicked % GameManager.current.FehlerAnzahl  == 0)
+            if (falseClicked % GameManager.current.FehlerAnzahl == 0)
             {
                 StunPlayer();
             }
@@ -286,7 +264,7 @@ public class Player : MonoBehaviour {
         // Full Cycle Completed
         if (up && right && down && left)
         {
-            spinSpeedSaves.Enqueue ( 1 );
+            spinSpeedSaves.Enqueue(1);
             spinSpeedSaves.Dequeue();
             up = right = down = left = false;
         }
@@ -298,7 +276,7 @@ public class Player : MonoBehaviour {
 
         // Cap Spinspeed to [0,inf)
         spinsPerSecond = 0;
-        foreach(int speed in spinSpeedSaves)
+        foreach (int speed in spinSpeedSaves)
         {
             spinsPerSecond += speed;
         }
@@ -318,20 +296,18 @@ public class Player : MonoBehaviour {
         }
 
         correctPerSecond = 0;
-        for(int i=0; i<GameManager.current.clickSecondsSmoothed*60; i++)
+        for (int i = 0; i < GameManager.current.clickSecondsSmoothed * 60; i++)
         {
             correctButtonPresses.Dequeue();
             correctButtonPresses.Enqueue(0);
         }
 
         //löscht alle buttons des Spieler
-        foreach(Image button in currentActiveButtons)
+        foreach (Image button in currentActiveButtons)
         {
             Destroy(button.gameObject);
         }
         currentActiveButtons.Clear();
-
-
     }
 
     IEnumerator findControllerIndex()
@@ -353,43 +329,35 @@ public class Player : MonoBehaviour {
                 GamePad.SetVibration(playerIndex, 0.2f, 0.2f);
                 yield return new WaitForSeconds(2);
                 GamePad.SetVibration(playerIndex, 0f, 0f);
-
             }
-
-            
         }
-
-       
     }
 
     IEnumerator vibrateController(int i)
     {
         bool playerIndexSet = false;
         PlayerIndex playerIndex;
-
-
         PlayerIndex testPlayerIndex = (PlayerIndex)i;//((i+1)%2);
+
         GamePadState testState = GamePad.GetState(testPlayerIndex);
         if (testState.IsConnected)
         {
-           // Debug.Log(string.Format("GamePad found {0}", testPlayerIndex));
+            // Debug.Log(string.Format("GamePad found {0}", testPlayerIndex));
             playerIndex = testPlayerIndex;
             playerIndexSet = true;
 
             GamePad.SetVibration(playerIndex, 0.2f, 0.2f);
             yield return new WaitForSeconds(2);
             GamePad.SetVibration(playerIndex, 0f, 0f);
-
         }
-
-
-        
     }
 
     void OnTriggerEnter(Collider other)
     {
-            if(GameManager.current.run)
-                StartCoroutine(Obstacle(other));
+        if (GameManager.current.run)
+        {
+            StartCoroutine(Obstacle(other));
+        }
     }
 
     IEnumerator Obstacle(Collider other)
@@ -399,31 +367,22 @@ public class Player : MonoBehaviour {
         GetComponent<PlayerAnimation>().obstacle = true;
         obstacle = true;
 
-        GameObject mash = Instantiate(mashButton, transform.position + Vector3.down*8, Quaternion.identity);
+        GameObject mash = Instantiate(mashButton, transform.position + Vector3.down * 8, Quaternion.identity);
         mash.GetComponent<MashButton>().player = player;
 
         StunPlayer();
 
         int hits = 0;
+        int type = 0;
 
-        int type;
-
-        switch (other.tag)
+        if (other.tag == "Iron")
         {
-            case "Rock":
-                type = 0;
-                break;
-            case "Iron":
-                type = 1;
-                break;
-            default:
-                type = 0;
-                break;
+            type = 1;
         }
 
-        while(hits < GameManager.current.hitsNeeded[type])
+        while (hits < GameManager.current.hitsNeeded[type])
         {
-            if (Input.GetKeyDown("joystick " + player + " button " + GameManager.current.buttonNeeded[type])||Input.GetAxis("Horizontal")<0)//Noch unschön mit Tastaturinput, aber fürs erste passts
+            if (Input.GetKeyDown("joystick " + player + " button " + GameManager.current.buttonNeeded[type]) || Input.GetAxis("Horizontal") < 0)//Noch unschön mit Tastaturinput, aber fürs erste passts
             {
                 hits++;
             }
