@@ -2131,7 +2131,7 @@ MonoBehaviour:
         m_CallState: 2
   player1EasterEgg: 0
   drill: {fileID: 1152987784}
-  trans: 1
+  trans: 0
 --- !u!1 &1390807501
 GameObject:
   m_ObjectHideFlags: 0
