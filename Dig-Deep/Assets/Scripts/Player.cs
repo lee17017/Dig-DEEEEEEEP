@@ -21,13 +21,13 @@ public class Player : MonoBehaviour
 
     public float spinsPerSecond;
     [SerializeField]
-    public Queue<int> spinSpeedSaves;
+    private Queue<int> spinSpeedSaves;
 
     public float correctPerSecond;
     public Queue<int> correctButtonPresses;
 
     [SerializeField]
-    Image defaultImage;
+    private Image defaultImage = null;
 
     private float timeSinceLastSpawn = 0;
 
@@ -37,7 +37,6 @@ public class Player : MonoBehaviour
 
     public int correctClicked = 0;
     public int falseClicked = 0;
-    private bool clicked = false;//Used for keyboard controll
 
     private bool endAnimStarted = false;
 
@@ -310,9 +309,8 @@ public class Player : MonoBehaviour
         currentActiveButtons.Clear();
     }
 
-    IEnumerator findControllerIndex()
+    IEnumerator findControllerIndex()//TODO use method vibrateController
     {
-        bool playerIndexSet = false;
         PlayerIndex playerIndex;
 
         for (int i = 0; i < 4; ++i)
@@ -322,9 +320,7 @@ public class Player : MonoBehaviour
             GamePadState testState = GamePad.GetState(testPlayerIndex);
             if (testState.IsConnected)
             {
-                Debug.Log(string.Format("GamePad found {0}", testPlayerIndex));
                 playerIndex = testPlayerIndex;
-                playerIndexSet = true;
 
                 GamePad.SetVibration(playerIndex, 0.2f, 0.2f);
                 yield return new WaitForSeconds(2);
@@ -335,16 +331,13 @@ public class Player : MonoBehaviour
 
     IEnumerator vibrateController(int i)
     {
-        bool playerIndexSet = false;
         PlayerIndex playerIndex;
         PlayerIndex testPlayerIndex = (PlayerIndex)i;//((i+1)%2);
 
         GamePadState testState = GamePad.GetState(testPlayerIndex);
         if (testState.IsConnected)
         {
-            // Debug.Log(string.Format("GamePad found {0}", testPlayerIndex));
             playerIndex = testPlayerIndex;
-            playerIndexSet = true;
 
             GamePad.SetVibration(playerIndex, 0.2f, 0.2f);
             yield return new WaitForSeconds(2);

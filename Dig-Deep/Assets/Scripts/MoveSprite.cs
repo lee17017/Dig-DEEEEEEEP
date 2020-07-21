@@ -1,18 +1,19 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveSprite : MonoBehaviour {
+public class MoveSprite : MonoBehaviour //TODO maybe integrate into "NextLayer"
+{
+    [SerializeField]
+    private Transform start = null;
+    [SerializeField]
+    private Transform end = null;
 
-    public Transform start;
-    public Transform end;
-
-    public void moveDrill()
+    public void MoveDrill()
     {
-        StartCoroutine(move());
+        StartCoroutine(Move());
     }
 
-    IEnumerator move()
+    IEnumerator Move()
     {
         float passedTime = 0;
 
@@ -20,9 +21,9 @@ public class MoveSprite : MonoBehaviour {
         {
             passedTime += Time.deltaTime;
 
-            this.transform.position = Vector3.Lerp(start.position, end.position, passedTime / 2);
+            transform.position = Vector3.Lerp(start.position, end.position, passedTime / 2);
 
-            if (this.transform.position == end.position)
+            if (transform.position == end.position)
             {
                 yield break;
             }

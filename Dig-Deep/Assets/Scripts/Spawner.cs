@@ -1,18 +1,16 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class Spawner : MonoBehaviour {
-
+public class Spawner : MonoBehaviour
+{
     public int player;
 
     public GameObject[] spawner;
     public GameObject[] obstacles;
     public GameObject warningMiddle, warningLeft, warningRight;
-    
+
     private float spawnTimeCur;
-
     private float xStart;
-
     public float spawnTime;
 
     private void Start()
@@ -20,41 +18,42 @@ public class Spawner : MonoBehaviour {
         spawnTimeCur = spawnTime;
         xStart = transform.position.x;
     }
-    
-    void Update () {
+
+    void Update()
+    {
         if (!transform.parent.GetComponent<Player>().obstacle && GameManager.current.run)
         {
             transform.position = new Vector3(xStart, transform.position.y, transform.position.z);
 
             if (spawnTimeCur < 0)
             {
-                spawnTimeCur = Rn(1, 4);
-                StartCoroutine(spawnObject(Rn(spawner.Length - 1), Rn(obstacles.Length - 1)));
+                spawnTimeCur = Rand(1, 4);
+                StartCoroutine(SpawnObject(Rand(spawner.Length - 1), Rand(obstacles.Length - 1)));
             }
 
             spawnTimeCur -= Time.deltaTime;
         }
-	}
+    }
 
-    int Rn(int max)
+    private int Rand(int max)
     {
         return Random.Range(0, max + 1);
     }
 
-    int Rn(int min, int max)
+    private int Rand(int min, int max)
     {
         return Random.Range(min, max + 1);
     }
 
-    IEnumerator spawnObject(int spawn, int obst)
+    IEnumerator SpawnObject(int spawn, int obst)
     {
-        StartCoroutine(warning(spawn));
+        StartCoroutine(Warning(spawn));
         GameObject obstacle = Instantiate(obstacles[obst]);
         obstacle.transform.position = spawner[spawn].transform.position;
         yield return null;
     }
 
-    IEnumerator warning(int spawn)
+    IEnumerator Warning(int spawn)
     {
         GameObject warningObj = null;
 
@@ -74,7 +73,7 @@ public class Spawner : MonoBehaviour {
         warningObj.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
 
         yield return new WaitForSeconds(1);
-        
+
         warningObj.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
     }
 }

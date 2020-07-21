@@ -1,12 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class Clockcode : MonoBehaviour {
+public class Clockcode : MonoBehaviour
+{
+    private Image clockImage;
 
-	void Update () {
-		//Stoppuhr
-        GetComponent<Image>().fillAmount = GameManager.current.clockPercentage;
-	}
+    void Awake()
+    {
+        clockImage = GetComponent<Image>();
+    }
+
+    void Update()
+    {
+        clockImage.fillAmount = GameManager.current.clockPercentage;
+    }
 }

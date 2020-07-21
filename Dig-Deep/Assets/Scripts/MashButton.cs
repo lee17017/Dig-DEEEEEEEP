@@ -1,32 +1,28 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MashButton : MonoBehaviour
 {
-
     public int player;
+    private SpriteRenderer rend;
 
-    // Use this for initialization
-    void Start()
+    void Awake()
     {
-
+        rend = GetComponent<SpriteRenderer>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (!GameManager.current.run)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
-        if (Input.GetKey("joystick " + player + " button 0"))
+        else if (Input.GetKey("joystick " + player + " button 0"))
         {
-            GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
+            rend.color = new Color(1, 1, 1, 0.5f);
         }
         else
         {
-            GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+            rend.color = new Color(1, 1, 1, 1);
         }
     }
 }

@@ -1,11 +1,9 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Schild : MonoBehaviour {
-
-
+public class Schild : MonoBehaviour
+{
     public GameObject schild;
     public GameObject plyerRef;
 
@@ -13,40 +11,31 @@ public class Schild : MonoBehaviour {
 
     public GameObject[] start_end;
 
-    private bool move;
-	// Use this for initialization
-	void Start () {
-		
-	}
+    //TODO private bool move;
 
-   
-    // Update is called once per frame
-    void Update () {
-
-        
-        if(((int)(-1*(plyerRef.transform.position.y-27)))%25 == 0)
+    void Update()
+    {
+        if (((int)(-1 * (plyerRef.transform.position.y - 27))) % 25 == 0)
         {
-            move = true;
-            int tiefe = (int) ((-(plyerRef.transform.position.y - 27)) / 25);
+            //TODO move = true;
+            int tiefe = (int)((-(plyerRef.transform.position.y - 27)) / 25);
 
             tiefe *= 25;
             point.text = tiefe.ToString();
             //StartCoroutine(displaySheeld());
         }
+    }
 
-		
-	}
-
-    void swap_start_end()
+    void SwapStartEnd()
     {
         GameObject cache = start_end[0];
         start_end[0] = start_end[1];
         start_end[1] = cache;
     }
 
-    IEnumerator moveSheeld()
+    IEnumerator MoveShield()
     {
-        move = true;
+        //TODO move = true;
         float passedTime = 0;
 
         while (true)
@@ -57,24 +46,20 @@ public class Schild : MonoBehaviour {
 
             if (schild.transform.position == start_end[1].transform.position)
             {
-                move = false;
+                //TODO move = false;
                 yield break;
-                
             }
 
             yield return null;
         }
     }
 
-    IEnumerator displaySheeld()
+    IEnumerator displaySheeld()//TODO needed?
     {
-        
-        StartCoroutine(moveSheeld());
-        move = true;
-        //yield return new WaitForSeconds(2f);
-        move = true;
-        swap_start_end();
+        StartCoroutine(MoveShield());
+        //TODO move = true;
+        SwapStartEnd();
         yield return new WaitForSeconds(2f);
-        StartCoroutine(moveSheeld());
+        StartCoroutine(MoveShield());
     }
 }

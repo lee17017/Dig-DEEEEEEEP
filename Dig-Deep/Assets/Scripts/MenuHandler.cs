@@ -1,36 +1,42 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
-public class MenuHandler : MonoBehaviour {
-
-	
+public class MenuHandler : MonoBehaviour
+{
     public UnityEvent p1pressedA, p2pressedA, p1pressedB, p2pressedB, transition;
-    bool p1Done=false, p2Done=false, done = false;
+    private bool p1Done = false, p2Done = false, done = false;
 
     [SerializeField]
     private int player1EasterEgg = 0;
     private int player2EasterEgg = 0;
+    [SerializeField]
+    private GameObject drill = null;
+    [SerializeField]
+    private bool trans = false;
 
-    public GameObject drill;
-
-    public bool trans;
-
-
-    // Update is called once per frame
-    void Update () {
-        
+    void Update()
+    {
         if (trans)
         {
             done = true;
-            StartCoroutine(nextLevel());
+            StartCoroutine(NextLevel());
         }
 
+        HandleReadyButtons();
 
-        //Debug.Log(done);
+        if (p1Done && p2Done)
+        {
+            done = true;
+            StartCoroutine(NextLevel());
+        }
+        
+        HandleEasterEgg();
+    }
 
+    private void HandleReadyButtons()
+    {
         if (Input.GetKeyDown("joystick 1 button 0") && !p1Done && !done && player1EasterEgg != 7)
         {
             p1pressedA.Invoke();
@@ -43,7 +49,7 @@ public class MenuHandler : MonoBehaviour {
             p2Done = !p2Done;
         }
 
-        if(Input.GetKeyDown("joystick 1 button 1") && p1Done && !done)
+        if (Input.GetKeyDown("joystick 1 button 1") && p1Done && !done)
         {
             p1pressedB.Invoke();
             p1Done = !p1Done;
@@ -53,16 +59,11 @@ public class MenuHandler : MonoBehaviour {
         {
             p2pressedB.Invoke();
             p2Done = !p2Done;
-           
         }
+    }
 
-        if(p1Done && p2Done)
-        {
-            done = true;
-            StartCoroutine(nextLevel());
-        }
-        
-        //Easter Egg handlling
+    private void HandleEasterEgg()
+    {
         switch (player1EasterEgg)
         {
             case 0:
@@ -141,18 +142,15 @@ public class MenuHandler : MonoBehaviour {
                     GameManager.current.Player2EasterEgg = true;
                 break;
         }
-
     }
 
-    IEnumerator nextLevel()
+    IEnumerator NextLevel()
     {
-
-        drill.GetComponent<MoveSprite>().moveDrill();
+        drill.GetComponent<MoveSprite>().MoveDrill();
         yield return new WaitForSeconds(2);
         transition.Invoke();
 
         yield return new WaitForSeconds(8);
         SceneManager.LoadScene(1);
     }
-
 }

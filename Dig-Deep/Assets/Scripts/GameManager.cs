@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour {
-
+public class GameManager : MonoBehaviour
+{
     public AudioClip stunClip;
 
     public static GameManager current;
-       
+
     public Canvas canvas;
-    
+
     public Sprite[] ButtonSprites;
 
     public GameObject[] plyers;
@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour {
     public float gameDuration;
     public float totalDuration;
     public bool run = true;
-    public bool tastatur = false;//Für Tastatursteuerung
+    public bool tastatur = false;
 
     public float clockPercentage;
 
@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour {
     {
         current = this;
 
-        for(int i = 0; i < 1000; i++)
+        for (int i = 0; i < 1000; i++)
         {
             sequence.Add(Random.Range(0, 4));
         }
@@ -78,9 +78,10 @@ public class GameManager : MonoBehaviour {
 
     IEnumerator gameTime()
     {
-        while(gameDuration > 0)        {
-            
-            if(SceneManager.GetActiveScene().buildIndex == 0)
+        while (gameDuration > 0)
+        {
+
+            if (SceneManager.GetActiveScene().buildIndex == 0)
             {
                 run = true;
                 gameDuration = totalDuration;
@@ -92,7 +93,6 @@ public class GameManager : MonoBehaviour {
         run = false;
     }
     
-    //Für Tastatursteuerung
     public void setKBActive()
     {
         tastatur = !tastatur;

@@ -1,13 +1,13 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PlayerAnimation : MonoBehaviour {
+public class PlayerAnimation : MonoBehaviour
+{
     public float pSpeed;
     public bool obstacle;
     public bool cameraStop = false, cameraCenter = false;
-    
+
     public int distance;
     public GameObject textPref;
     public GameObject winSprite, loseSprite;
@@ -16,86 +16,17 @@ public class PlayerAnimation : MonoBehaviour {
     private bool switching = false, switching2 = false;
     private float animSpeed = 4;
 
-
     [SerializeField]
-    RuntimeAnimatorController[] drillAnims_normal;
+    private RuntimeAnimatorController[] drillAnims_normal = null;
     [SerializeField]
-    RuntimeAnimatorController drillAnim_special;
+    private RuntimeAnimatorController drillAnim_special = null;
 
-    
-    public IEnumerator EndAnimation()
+    void Start()
     {
-       // yield return new WaitForSeconds(5);
-
-        cameraCenter = true;
-        yield return new WaitForSeconds(1);
-        //Move
-        for (int i = 0; i < distance; i++)
-        {
-            transform.Translate(Vector3.down*Time.deltaTime * animSpeed);
-            yield return new WaitForEndOfFrame();
-        }
-
-        //Rotate
-        for (int i = 0; i < 30; i++)
-        {
-            transform.Rotate(new Vector3(0, 0, playerNr==1 ? -3:3));
-            transform.Translate(Vector3.down * Time.deltaTime* animSpeed);
-            yield return new WaitForEndOfFrame();
-        }
-
-        for (int i = 0; i < distance / 2; i++)
-        {
-            transform.Translate(Vector3.down * Time.deltaTime * animSpeed);
-            yield return new WaitForEndOfFrame();
-        }
-        GameObject temp;
-        if ((playerNr == 1 && GameManager.current.winnerScore == GameManager.current.playerScore1) || (playerNr == 2 && GameManager.current.winnerScore == GameManager.current.playerScore2))
-        {
-            temp = (GameObject)Instantiate(winSprite);
-        }
-        else
-        {
-            temp = (GameObject)Instantiate(loseSprite);
-        }
-            temp.transform.position = new Vector3(transform.position.x + (playerNr == 1 ? -2.2f : 2.2f), this.transform.position.y-0.5f, 0.5f);
-       
-
-        for (int i = 0; i < distance-5; i++)
-        {
-            transform.Translate(Vector3.down * Time.deltaTime * animSpeed);
-            yield return new WaitForEndOfFrame();
-        }
-        cameraStop = true;
-        float x = transform.position.x;
-
-        for (int i = 0; i < distance * 2f; i++)
-        {
-            transform.Translate(Vector3.down * Time.deltaTime * animSpeed);
-            yield return new WaitForEndOfFrame();
-        }
-
-        transform.position = new Vector3(transform.position.x, transform.position.y - 3);
-        transform.Rotate(new Vector3(0, 0, 180));
-
-        temp = Instantiate(textPref);
-        temp.GetComponent<TextMesh>().text = "" + (playerNr== 1 ? GameManager.current.playerScore1 : GameManager.current.playerScore2)+"m";
-        temp.transform.position = new Vector3(x, transform.position.y, 0.5f);
-        for (int i = 0; i < distance*5; i++)
-        {   
-            transform.Translate(Vector3.down * Time.deltaTime * animSpeed);
-            yield return new WaitForEndOfFrame();
-        }
-
-        yield return new WaitForSeconds(3);
-        SceneManager.LoadScene(2);
-    }
-	// Use this for initialization
-	void Start () {
         //StartCoroutine(Animation());
 
         //Change Animation Controller if a Player is using Easter Egg model
-        switch(playerNr)
+        switch (playerNr)
         {
             case 1:
                 if (GameManager.current.Player1EasterEgg)
@@ -118,9 +49,8 @@ public class PlayerAnimation : MonoBehaviour {
                 }
                 break;
         }
-	}
-    
-    // Update is called once per frame
+    }
+
     void Update()
     {
         if (GameManager.current.run)
@@ -134,66 +64,130 @@ public class PlayerAnimation : MonoBehaviour {
                 pSpeed = 0;
             }
 
-        transform.Translate(Vector3.down * Time.deltaTime * pSpeed);
-
+            transform.Translate(Vector3.down * Time.deltaTime * pSpeed);
         }
         else
         {
             pSpeed = GameManager.current.baseSpeed;
         }
 
-        if ((mod((int)transform.position.y, 32) <= 16 && !switching))
+        if ((Mod((int)transform.position.y, 32) <= 16 && !switching))
         {
-            switchNext();
+            SwitchNext();
         }
 
-        if (mod((int)(transform.position.y), 32) <= 1)
+        if (Mod((int)(transform.position.y), 32) <= 1)
         {
-            switchField();
+            SwitchField();
         }
 
-        if (mod((int)(transform.position.y), 32) >= 31 && !switching2)
+        if (Mod((int)(transform.position.y), 32) >= 31 && !switching2)
         {
-            switchField2();
+            SwitchField2();
         }
 
-
-
-        if (switching && (mod((int)transform.position.y, 32) >= 26))
+        if (switching && (Mod((int)transform.position.y, 32) >= 26))
         {
             switching = false;
         }
 
-        if (switching2 && (mod((int)transform.position.y, 32) >= 20))
+        if (switching2 && (Mod((int)transform.position.y, 32) >= 20))
         {
             switching2 = false;
         }
     }
 
-    void switchField()
+    public IEnumerator EndAnimation()//TODO fix weird animation if pre-rotated
     {
-        
-        next.GetComponent<Tiling>().numb = playerNr * 10 + 1;
-        
+        cameraCenter = true;
+        yield return new WaitForSeconds(1);
+        //Move
+        for (int i = 0; i < distance; i++)
+        {
+            transform.Translate(Vector3.down * Time.deltaTime * animSpeed);
+            yield return new WaitForEndOfFrame();
+        }
+
+        //Rotate
+        for (int i = 0; i < 30; i++)
+        {
+            transform.Rotate(new Vector3(0, 0, playerNr == 1 ? -3 : 3));
+            transform.Translate(Vector3.down * Time.deltaTime * animSpeed);
+            yield return new WaitForEndOfFrame();
+        }
+
+        for (int i = 0; i < distance / 2; i++)
+        {
+            transform.Translate(Vector3.down * Time.deltaTime * animSpeed);
+            yield return new WaitForEndOfFrame();
+        }
+
+        GameObject temp;
+        if ((playerNr == 1 && GameManager.current.winnerScore == GameManager.current.playerScore1) || (playerNr == 2 && GameManager.current.winnerScore == GameManager.current.playerScore2))
+        {
+            temp = Instantiate(winSprite);
+        }
+        else
+        {
+            temp = Instantiate(loseSprite);
+        }
+        temp.transform.position = new Vector3(transform.position.x + (playerNr == 1 ? -2.2f : 2.2f), this.transform.position.y - 0.5f, 0.5f);
+
+        for (int i = 0; i < distance - 5; i++)
+        {
+            transform.Translate(Vector3.down * Time.deltaTime * animSpeed);
+            yield return new WaitForEndOfFrame();
+        }
+
+        cameraStop = true;
+        float x = transform.position.x;
+
+        for (int i = 0; i < distance * 2f; i++)
+        {
+            transform.Translate(Vector3.down * Time.deltaTime * animSpeed);
+            yield return new WaitForEndOfFrame();
+        }
+
+        transform.position = new Vector3(transform.position.x, transform.position.y - 3);
+        transform.Rotate(new Vector3(0, 0, 180));
+
+        temp = Instantiate(textPref);
+        temp.GetComponent<TextMesh>().text = "" + (playerNr == 1 ? GameManager.current.playerScore1 : GameManager.current.playerScore2) + "m";
+        temp.transform.position = new Vector3(x, transform.position.y, 0.5f);
+        for (int i = 0; i < distance * 5; i++)
+        {
+            transform.Translate(Vector3.down * Time.deltaTime * animSpeed);
+            yield return new WaitForEndOfFrame();
+        }
+
+        yield return new WaitForSeconds(3);
+        SceneManager.LoadScene(2);
     }
-    void switchField2()
+
+    private void SwitchField()
+    {
+        next.GetComponent<Tiling>().numb = playerNr * 10 + 1;
+    }
+
+    private void SwitchField2()
     {
         switching2 = true;
         act.GetComponent<Tiling>().numb = playerNr * 10 + 2;
     }
-    void switchNext()
-    {
 
+    private void SwitchNext()
+    {
         switching = true;
         act.transform.position = next.transform.position - Vector3.up * 32;
         GameObject temp = act;
         act = next;
         next = temp;
-        next.GetComponent<Tiling>().init();
-        act.GetComponent<Tiling>().removeShit();
+        next.GetComponent<Tiling>().Init();
+        act.GetComponent<Tiling>().RemoveShit();
         darkEarth.transform.Translate(Vector3.down * 32);
     }
-    int mod(int a, int b)
+
+    private int Mod(int a, int b)
     {
         return (a % b + b) % b;
     }

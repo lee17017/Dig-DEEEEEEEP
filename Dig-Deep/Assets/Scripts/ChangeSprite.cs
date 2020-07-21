@@ -1,58 +1,30 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class ChangeSprite : MonoBehaviour {
-
-
-    public Sprite red;
-    public Sprite green;
-
-    public Text pressA;
-
+public class ChangeSprite : MonoBehaviour
+{
+    #region Variables
+    [SerializeField]
+    [Tooltip("Default sprite")]
+    private Sprite red = null;
+    [SerializeField]
+    [Tooltip("Toggled sprite")]
+    private Sprite green = null;
+    private Image spriteImage;
+    public Text pressA;//TODO check if it could be found programmatically
     private bool state = false; /* false = red true=green*/
+    #endregion
 
-    public bool test;
-
-    
-
-    void Update()
+    void Awake()
     {
-        if (test)
-        {
-            test = false;
-            toggleSprite();
-            
-        }
+        spriteImage = GetComponent<Image>();
     }
 
-    /*
-     changes the button sprite from red to green 
-         */
-    public void toggleSprite()
+    /// <summary> Toggles the button sprite between red and green </summary>
+    public void ToggleSprite()
     {
-        if (state)
-        {
-            toRED();
-            pressA.gameObject.SetActive(true);
-        }
-        else
-        {
-            toGreen();
-            pressA.gameObject.SetActive(false);
-        }
-
+        pressA.gameObject.SetActive(state);
         state = !state;
-    }
-
-    private void toRED()
-    {
-        this.GetComponent<Image>().sprite = red;
-    }
-
-    private void toGreen()
-    {
-        this.GetComponent<Image>().sprite = green;
+        spriteImage.sprite = state ? green : red;
     }
 }

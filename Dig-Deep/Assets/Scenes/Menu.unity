@@ -210,7 +210,6 @@ MonoBehaviour:
   red: {fileID: 21300056, guid: d0de89ac3b4072c489d5ff653ef024cc, type: 3}
   green: {fileID: 21300098, guid: d0de89ac3b4072c489d5ff653ef024cc, type: 3}
   pressA: {fileID: 1753833364}
-  test: 0
 --- !u!1 &63198515
 GameObject:
   m_ObjectHideFlags: 0
@@ -2063,7 +2062,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 26682849}
-        m_MethodName: toggleSprite
+        m_MethodName: ToggleSprite
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2077,7 +2076,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1830207709}
-        m_MethodName: toggleSprite
+        m_MethodName: ToggleSprite
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2091,7 +2090,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 26682849}
-        m_MethodName: toggleSprite
+        m_MethodName: ToggleSprite
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2105,7 +2104,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1830207709}
-        m_MethodName: toggleSprite
+        m_MethodName: ToggleSprite
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2910,7 +2909,6 @@ MonoBehaviour:
   red: {fileID: 21300056, guid: d0de89ac3b4072c489d5ff653ef024cc, type: 3}
   green: {fileID: 21300098, guid: d0de89ac3b4072c489d5ff653ef024cc, type: 3}
   pressA: {fileID: 728449763}
-  test: 0
 --- !u!114 &1830207710
 MonoBehaviour:
   m_ObjectHideFlags: 0

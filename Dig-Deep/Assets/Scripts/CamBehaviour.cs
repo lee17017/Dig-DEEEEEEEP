@@ -24,6 +24,7 @@ public class CamBehaviour : MonoBehaviour
     
     void Update()
     {
+        //TODO check if needed:
         /*if (player.GetComponent<PlayerAnimation>().cameraCenter)
         {
             speedOffset = 0;

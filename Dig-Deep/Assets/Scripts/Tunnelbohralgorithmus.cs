@@ -3,10 +3,12 @@ using UnityEngine;
 
 public class Tunnelbohralgorithmus : MonoBehaviour
 {
-    public float left, mid, right;
-    public int spielerNr;
-    public int lane = 1;
-    bool switching = false;
+    private float left, mid, right;
+    [SerializeField]
+    private int spielerNr = -1;
+    [SerializeField]
+    private int lane = 1;
+    private bool switching = false;
     
     void Start()
     {
@@ -21,16 +23,16 @@ public class Tunnelbohralgorithmus : MonoBehaviour
         {
             if (Input.GetKeyDown("joystick " + spielerNr + " button 4") || (GameManager.current.tastatur && Input.GetMouseButtonDown(0)))
             {
-                StartCoroutine(switchLane(-1));
+                StartCoroutine(SwitchLane(-1));
             }
             if (Input.GetKeyDown("joystick " + spielerNr + " button 5") || (GameManager.current.tastatur && Input.GetMouseButtonDown(1)))
             {
-                StartCoroutine(switchLane(1));
+                StartCoroutine(SwitchLane(1));
             }
         }
     }
 
-    IEnumerator switchLane(int direction)
+    IEnumerator SwitchLane(int direction)
     {
         if ((direction < 0 && lane != 0) || (direction > 0 && lane != 2))
         {
@@ -48,7 +50,6 @@ public class Tunnelbohralgorithmus : MonoBehaviour
             }
 
             float goal = mid;
-
             switch (lane)
             {
                 case 0:

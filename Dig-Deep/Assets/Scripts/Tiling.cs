@@ -1,32 +1,42 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
-public class Tiling : MonoBehaviour {
-    
+public class Tiling : MonoBehaviour
+{
+    #region Variables
     public int width, height;//=pixeldichte
     public Texture2D tex;
     //ppu = 10+ Scale = 10+; width = 10- => faktor = 10
     public int pWidth, pHeight;
     public GameObject player;
     Color32[] digged, empty;
-    bool once = true;
     public int numb;
-    Sprite sprite;
+    private Sprite sprite;
     public Texture2D[] sprites;
     private int fieldWidth, fieldHeight;
-    public void removeShit()
-    {
+    #endregion
 
-        for (int x = 0; x < width; x++)
+    #region Initialization
+    void Awake()
+    {
+        if (tex == null)
         {
-                sprite.texture.SetPixels32(x * tex.width, 0, tex.width, tex.height, tex.GetPixels32());
+            Debug.LogError("could not find texture");
         }
-        sprite.texture.Apply(true);
+
+        fieldWidth = width * tex.width;
+        fieldHeight = height * tex.height;
+        sprite = GetComponent<SpriteRenderer>().sprite;
+        empty = new Color32[pWidth * pHeight];
+        for (int i = 0; i < pWidth * pHeight; i++)
+        {
+            empty[i] = new Color32(0, 0, 0, 0);
+        }
+
+        Init();
     }
-    public void init()
+
+    public void Init()
     {
         for (int x = 0; x < width; x++)
         {
@@ -38,8 +48,7 @@ public class Tiling : MonoBehaviour {
 
         if (sprites.Length > 0)
         {
-
-            int anz = UnityEngine.Random.Range(1, 5);
+            int anz = Random.Range(1, 5);
             int[] xPos = new int[anz];
             int[] ypos = new int[anz];
             int[] xVal = new int[anz];
@@ -48,12 +57,12 @@ public class Tiling : MonoBehaviour {
             for (int i = 0; i < anz; i++)
             {
                 bool ok = false;
-                int typ = UnityEngine.Random.Range(0, sprites.Length);
+                int typ = Random.Range(0, sprites.Length);
                 int x, y;
                 do
                 {
-                    x = (int)UnityEngine.Random.Range(0, fieldWidth - sprites[typ].width);
-                    y = (int)UnityEngine.Random.Range(tex.height, fieldHeight - sprites[typ].height);
+                    x = Random.Range(0, fieldWidth - sprites[typ].width);
+                    y = Random.Range(tex.height, fieldHeight - sprites[typ].height);
                     for (int j = 0; j < i; j++)
                     {
                         if (x > xPos[j] - sprites[typ].width && x < xPos[j] + xVal[j] && y > ypos[j] - yVal[j] && y < ypos[j] + sprites[typ].height)
@@ -71,76 +80,65 @@ public class Tiling : MonoBehaviour {
                 xPos[i] = x; ypos[i] = y;
                 xVal[i] = sprites[typ].width; yVal[i] = sprites[typ].height;
                 sprite.texture.SetPixels32(x, y, sprites[typ].width, sprites[typ].height, sprites[typ].GetPixels32());
-
-
             }
         }
         sprite.texture.Apply(true);
     }
-    void Awake()
-    {
+    #endregion
 
-
-        if (tex == null)
-            Debug.LogError("could not find texture");
-
-        fieldWidth = width * tex.width;
-        fieldHeight = height * tex.height;
-        sprite = GetComponent<SpriteRenderer>().sprite;
-        empty = new Color32[pWidth * pHeight];
-        for (int i = 0; i < pWidth * pHeight; i++)
-        {
-            empty[i] = new Color32(0, 0, 0, 0);
-        }
-
-        init();
-        
-    }
-    float mod(float a, int b)
-    {
-        return (a % b + b) % b;
-    }
     void Update()
     {
-
-
-
         if (numb % 10 == 1)
-        { 
-            Vector3 pos;
-            if (numb / 10 == 1)
-                pos = player.transform.position;
-            else
-                pos = player.transform.position + Vector3.left * 32;
+        {
+            Vector3 pos = player.transform.position + ((numb / 10 == 1) ? Vector3.zero : (Vector3.left * 32));
+            pos.y = Mod(pos.y, 32);
 
-            pos.y = mod(pos.y, 32);
-
-            int posX= (int)(20 * pos.x) - pWidth / 2, posY= (int)(20 * pos.y) - pHeight / 2;
+            int posX = (int)(20 * pos.x) - pWidth / 2, posY = (int)(20 * pos.y) - pHeight / 2;
             if ((int)(20 * pos.x) - pWidth / 2 < 0)
+            {
                 posX = 0;
-            else if ((int)(20 * pos.x) + pWidth / 2 > tex.width*width)
-                posX = tex.width*width-pWidth;
+            }
+            else if ((int)(20 * pos.x) + pWidth / 2 > tex.width * width)
+            {
+                posX = tex.width * width - pWidth;
+            }
 
             if ((int)(20 * pos.y) - pHeight / 2 < 0)
+            {
                 posY = 0;
+            }
             else if ((int)(20 * pos.y) + pHeight / 2 > tex.height * height)
+            {
                 posY = tex.height * height - pHeight;
+            }
 
             sprite.texture.SetPixels32(posX, posY, pWidth, pHeight, empty);
             sprite.texture.Apply();
         }
     }
-   /* void OnApplicationQuit()
+
+    private float Mod(float a, int b)
     {
-        sprite.texture.Resize(tex.width, tex.height);
-        sprite.texture.SetPixels32(tex.width, tex.height, tex.width, tex.height, tex.GetPixels32());
-    }*/
+        return (a % b + b) % b;
+    }
+
+    public void RemoveShit()
+    {
+        for (int x = 0; x < width; x++)
+        {
+            sprite.texture.SetPixels32(x * tex.width, 0, tex.width, tex.height, tex.GetPixels32());
+        }
+        sprite.texture.Apply(true);
+    }
+
+    #region Unused code
+    /* void OnApplicationQuit()
+     {
+         sprite.texture.Resize(tex.width, tex.height);
+         sprite.texture.SetPixels32(tex.width, tex.height, tex.width, tex.height, tex.GetPixels32());
+     }*/
     /*SpriteRenderer rend = GetComponent<SpriteRenderer>();
     Texture2D dest = rend.sprite.texture;
-
-
-
-
 
     var cols = dest.GetPixels32(0);
     for (var i = 0; i < cols.Length; ++i)
@@ -170,5 +168,5 @@ public class Tiling : MonoBehaviour {
         }
         dest.SetPixels32(cols, mip);
     }*/
-
+    #endregion
 }
